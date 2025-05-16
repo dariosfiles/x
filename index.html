@@ -290,6 +290,39 @@
   <audio id="popup-sound" src="https://myinstants.com/media/sounds/bow_shoot.mp3"></audio>
 
   <script>
+    // Disable right-click
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+
+    // Disable common developer tools shortcuts
+    document.addEventListener('keydown', function(e) {
+      // Disable F12 (DevTools)
+      if (e.key === 'F12') {
+        e.preventDefault();
+      }
+
+      // Disable Ctrl + Shift + I (DevTools)
+      if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+        e.preventDefault();
+      }
+
+      // Disable Ctrl + U (View Source)
+      if (e.ctrlKey && e.key === 'U') {
+        e.preventDefault();
+      }
+
+      // Disable Ctrl + Shift + J (DevTools Console)
+      if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+        e.preventDefault();
+      }
+
+      // Disable Ctrl + Shift + C (Inspect Element)
+      if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+        e.preventDefault();
+      }
+    });
+
     window.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
       document.getElementById('content').classList.add('blurred');
@@ -328,47 +361,6 @@
         const description = box.querySelector('.box-description').innerText.toLowerCase();
         box.style.display = (title.includes(query) || description.includes(query)) ? 'block' : 'none';
       });
-    }
-
-    function createSnowflake() {
-      const snowflake = document.createElement('div');
-      snowflake.classList.add('snowflake');
-      snowflake.style.left = Math.random() * window.innerWidth + 'px';
-      snowflake.style.animationDuration = 2 + Math.random() * 3 + 's';
-      snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
-      snowflake.innerText = '❄';
-      document.body.appendChild(snowflake);
-      setTimeout(() => snowflake.remove(), 5000);
-    }
-    setInterval(createSnowflake, 200);
-
-    // Falling characters when input exceeds 32 chars
-    const input = document.querySelector('.search-input');
-
-    input.addEventListener('input', () => {
-      const maxLength = 32;
-      if (input.value.length > maxLength) {
-        const extraChars = input.value.slice(maxLength);
-        input.value = input.value.slice(0, maxLength);
-
-        for (let char of extraChars) {
-          dropChar(char, input);
-        }
-      }
-    });
-
-    function dropChar(char, inputEl) {
-      const span = document.createElement('span');
-      span.className = 'falling-char';
-      span.textContent = char;
-
-      const rect = inputEl.getBoundingClientRect();
-      span.style.left = rect.left + Math.random() * rect.width + 'px';
-      span.style.top = rect.top + 'px';
-
-      document.body.appendChild(span);
-
-      setTimeout(() => span.remove(), 1500);
     }
   </script>
 </body>
