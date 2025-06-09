@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ventanita Mango | Vouches</title>
+
+  <!-- 🟦 Discord Embed (Open Graph) -->
+  <meta property="og:title" content="ventanita_mango - Vouches" />
+  <meta property="og:description" content="Verified seller" />
+  <meta property="og:image" content="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3BC82C270A98AF271A0CBAE53374F192-Png/150/150/AvatarHeadshot/Webp/noFilter" />
+  <meta property="og:url" content="https://mangos.click/ventanitamango" />
+  <meta name="theme-color" content="#3b82f6" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="bg-zinc-900 text-white min-h-screen font-sans flex flex-col items-center p-6 space-y-6">
+
+  <!-- Profile Section -->
+  <div class="flex flex-col items-center space-y-3">
+    <img 
+      src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3BC82C270A98AF271A0CBAE53374F192-Png/150/150/AvatarHeadshot/Webp/noFilter" 
+      alt="Profile Picture" 
+      class="w-32 h-32 rounded-full border-4 border-white shadow-lg"
+    />
+    <h1 class="text-3xl font-bold">ventanita_mango</h1>
+    <p class="text-zinc-400 text-sm">Trusted Roblox trader • Verified</p>
+  </div>
+
+  <!-- Vouches Section -->
+  <div class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4" id="vouches-container">
+    <!-- JS loads vouch cards here -->
+  </div>
+
+  <!-- Load More Button -->
+  <button id="loadMoreBtn" class="mt-6 px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-xl text-white font-semibold transition-all">
+    Load More
+  </button>
+
+  <!-- Socials Section -->
+  <div class="w-full max-w-2xl mt-12 fade-in">
+    <h2 class="text-2xl font-bold mb-4 border-b border-zinc-700 pb-2">Socials</h2>
+    <div class="flex flex-col gap-4">
+      <!-- Discord -->
+      <div class="flex items-center gap-3 bg-zinc-800 p-4 rounded-xl shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-400" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M20.317 4.369A19.791 19.791 0 0016.569 3c-.216.37-.454.86-.623 1.249a19.849 19.849 0 00-7.892 0 12.59 12.59 0 00-.624-1.25 19.78 19.78 0 00-3.75 1.37C2.728 8.061 2.05 11.61 2.427 15.104a19.901 19.901 0 005.99 3.045c.48-.664.906-1.37 1.27-2.112a12.968 12.968 0 01-2.029-.96c.17-.126.335-.258.492-.395a13.422 13.422 0 0010.723 0c.157.137.322.269.492.395-.653.379-1.331.699-2.029.96.363.74.79 1.447 1.27 2.112a19.9 19.9 0 005.99-3.045c.42-4.228-.66-7.75-2.76-10.734zM9.04 14.282c-1.182 0-2.154-1.085-2.154-2.419 0-1.334.956-2.419 2.154-2.419 1.206 0 2.173 1.094 2.154 2.419 0 1.334-.956 2.419-2.154 2.419zm5.916 0c-1.182 0-2.154-1.085-2.154-2.419 0-1.334.956-2.419 2.154-2.419 1.206 0 2.173 1.094 2.154 2.419 0 1.334-.948 2.419-2.154 2.419z"/>
+        </svg>
+        <span class="text-white text-sm">udswift</span>
+      </div>
+
+      <!-- Roblox -->
+      <div class="flex items-center gap-3 bg-zinc-800 p-4 rounded-xl shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-400" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6.23 2.5L2.5 17.77 17.77 21.5 21.5 6.23 6.23 2.5zm7.62 11.65l-4-1 1-4 4 1-1 4z"/>
+        </svg>
+        <span class="text-white text-sm">ventanita_mango</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const vouches = [
+      { user: "Foxu", reason: "Vouch - Raccoon for Queen Bee" },
+      { user: "SAGED", reason: "I went first, very trusted seller!" },
+      { user: "laki", reason: "Best trader in the whole game" },
+      { user: "otbwilliam", reason: "Fast, easy, no problems." },
+      { user: "Kyoru", reason: "Chill person, went well." },
+      { user: "Robey_sillat", reason: "Professional and honest." },
+      { user: "Crystal", reason: "10/10 would buy again!" },
+      { user: "Dark", reason: "Legit seller!" },
+      { user: "GrowAGarden_Player1", reason: "Friendly and quick." },
+      { user: "Turbo", reason: "Very legit!" },
+      { user: "Sigma_kid", reason: "Quick and helpful!" },
+      { user: "DOGDAY", reason: "LEGIT! I WENT FIRST" },
+      { user: "WallHopper39", reason: "Best seller in the whole game" },
+      { user: "Jiselle", reason: "Didn't scam me! Vouch" },
+      { user: "Krish", reason: "Raccoon for dragonfly, didnt scam! Vouch" },
+      { user: "deadrail_fan2", reason: "Traded grow a garden red fox, Real!" },
+      { user: "DirtfarmThe3rd", reason: "No issues at all!" }
+    ];
+
+    let visibleCount = 0;
+    const perLoad = 6;
+    const container = document.getElementById('vouches-container');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+    function showVouches() {
+      const next = vouches.slice(visibleCount, visibleCount + perLoad);
+      next.forEach((vouch, index) => {
+        const card = document.createElement('div');
+        card.className = "bg-zinc-800 p-4 rounded-2xl shadow-md fade-in";
+        card.style.animationDelay = `${index * 0.05}s`;
+        card.innerHTML = `
+          <h2 class="text-lg font-semibold text-white">@${vouch.user}</h2>
+          <p class="text-zinc-400 text-sm mt-1">${vouch.reason}</p>
+        `;
+        container.appendChild(card);
+      });
+      visibleCount += perLoad;
+      if (visibleCount >= vouches.length) {
+        loadMoreBtn.style.display = 'none';
+      }
+    }
+
+    // Initial load
+    showVouches();
+    loadMoreBtn.addEventListener('click', showVouches);
+  </script>
+
+</body>
+</html>
