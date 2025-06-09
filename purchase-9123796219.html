@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Claim Animals</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    button {
+      background-color: #111827;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <button id="claim-btn">Claim raccoon, dragonfly and red fox</button>
+
+  <script>
+    document.getElementById('claim-btn').addEventListener('click', () => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Purchase ID Fail',
+        text: "Please buy again, you're order has expired 4 days ago.",
+      }).then(() => {
+        window.location.href = 'https://discord.gg/HTqsKSgkE2';
+      });
+    });
+  </script>
+
+</body>
+</html>
