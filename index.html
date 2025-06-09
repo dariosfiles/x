@@ -1,5 +1,127 @@
-We are currently having some trouble loading our site.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>mangos.click login</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 380px;
+      transform: scale(1.05);
+    }
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+    }
+    input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: black;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+    .search-form {
+      margin-bottom: 1.5rem;
+      width: 100%;
+      max-width: 380px;
+      position: relative;
+    }
+    .search-form input {
+      padding-left: 2.5rem;
+    }
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 0.75rem;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
 
-Please wait a bit or try creating an account to view this page.
+  <form id="search-form" class="search-form">
+    <span class="search-icon">🔍</span>
+    <input id="search" type="text" placeholder="Search user..." />
+  </form>
 
-- Mangos.Click, the most trusted vouches site
+  <div class="card">
+    <h2>mangos.click vouch service</h2>
+    <form id="login-form">
+      <input type="email" placeholder="Email" required />
+      <input type="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('search-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const search = document.getElementById('search').value.trim().toLowerCase();
+      if (search === 'ventanita_mango') {
+        window.location.href = 'https://mangos.click/ventanitamango';
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'User not found',
+          text: `No results for "${search}"`,
+          customClass: {
+            popup: 'text-lg'
+          },
+        });
+      }
+    });
+
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: 'Invalid username or password.',
+        customClass: {
+          popup: 'text-lg'
+        },
+      });
+    });
+  </script>
+
+</body>
+</html>
