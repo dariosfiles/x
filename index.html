@@ -6,11 +6,11 @@
   <title>Oreo Cheats — License Portal</title>
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Oreo Cheats — License Portal" />
-  <meta property="og:description" content="Purchase a license for Oreo Cheats — advanced aim assistance for all games." />
+  <meta property="og:title" content="Oreo Cheats — AI Aimbot" />
+  <meta property="og:description" content="Oreo Aim is a advanced aim assistance for all games, with Oreo Aim, you will dominate all lobbies easily." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mangos.click" />
-  <meta property="og:image" content="https://static.wixstatic.com/media/bcc93e_90cfaae0b5684d98b09911eaa61d939f~mv2.png/v1/fill/w_298,h_378,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/miperro.png" />
+  <meta property="og:image" content="https://via.placeholder.com/800x420.png?text=Oreo+Cheats" />
   <meta name="theme-color" content="#0b0b0b" />
 
   <!-- SellAuth -->
@@ -83,7 +83,6 @@
     h1{margin-bottom:10px;font-size:28px}
     p{color:var(--muted);margin-bottom:20px}
 
-    /* Button styles + hover animation */
     button{
       background:var(--accent);
       border:none;
@@ -103,7 +102,23 @@
       box-shadow:0 6px 20px rgba(255,92,92,0.4);
     }
 
-    /* Video showcase */
+    /* Discord button */
+    .discord-btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 12px 20px;
+      background-color: #5865F2;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .discord-btn:hover {
+      background-color: #4752C4;
+      transform: translateY(-2px);
+    }
+
     .video-section{
       max-width:600px;
       width:100%;
@@ -149,7 +164,6 @@
       to{transform:rotate(360deg)}
     }
 
-    /* Keyframes */
     @keyframes fadeIn{
       to{opacity:1}
     }
@@ -162,17 +176,123 @@
       to{opacity:1;transform:translateY(0)}
     }
 
-    /* Responsive */
     @media (max-width:900px){
       main{
         flex-direction:column;
       }
+    }
+
+    /* Promo Popup */
+    #promoPopup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.75);
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      animation: fadeInBg 0.3s ease;
+    }
+    #promoPopupContent {
+      background: white;
+      color: black;
+      padding: 25px 35px;
+      border-radius: 16px;
+      text-align: center;
+      max-width: 420px;
+      font-family: Arial, sans-serif;
+      box-shadow: 0 0 25px rgba(255, 76, 76, 0.8);
+      border: 3px solid #ff4d4d;
+      animation: popupScale 0.4s ease, pulseBorder 1.5s infinite;
+    }
+    #promoPopupContent.closing {
+      animation: popupClose 0.4s ease forwards;
+    }
+    #promoPopupContent h2 {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #ff1a1a;
+      text-shadow: 0 0 8px rgba(255,0,0,0.7);
+    }
+    #promoPopupContent p {
+      font-size: 18px;
+      line-height: 1.4;
+      font-weight: bold;
+    }
+    #promoPopup button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      animation: bounceButton 1.2s infinite;
+    }
+    #promoPopup button:hover {
+      background: #e63939;
+    }
+
+    /* Notification bubble */
+    #promoNote {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      color: black;
+      padding: 12px 18px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.3);
+      font-size: 14px;
+      font-weight: bold;
+      display: none;
+      animation: fadeInBg 0.3s ease;
+      z-index: 9999;
+    }
+
+    @keyframes fadeInBg {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    @keyframes popupScale {
+      from {transform: scale(0.8); opacity: 0;}
+      to {transform: scale(1); opacity: 1;}
+    }
+    @keyframes popupClose {
+      from {transform: scale(1); opacity: 1;}
+      to {transform: scale(0.8); opacity: 0;}
+    }
+    @keyframes pulseBorder {
+      0%, 100% {box-shadow: 0 0 20px rgba(255, 76, 76, 0.7);}
+      50% {box-shadow: 0 0 40px rgba(255, 76, 76, 1);}
+    }
+    @keyframes bounceButton {
+      0%, 100% {transform: translateY(0);}
+      50% {transform: translateY(-5px);}
     }
   </style>
 </head>
 <body>
   <!-- Loading -->
   <div id="loadingOverlay"><div class="spinner"></div></div>
+
+  <!-- Promo Popup -->
+  <div id="promoPopup">
+    <div id="promoPopupContent">
+      <h2>🔥 Want to get better at aiming? 🔥</h2>
+      <p>🎯 Use promo code <strong>JUSTAIM2</strong> at checkout for an exclusive discount and dominate the lobby for even cheaper!</p>
+      <button onclick="closePromo()">Okay!</button>
+    </div>
+  </div>
+
+  <!-- Notification -->
+  <div id="promoNote">
+    💡 Thinking about buying? Use code <strong>JUSTAIM2</strong> for an easy discount.
+  </div>
 
   <!-- Header -->
   <header>
@@ -185,30 +305,61 @@
   <!-- Main content -->
   <main>
     <div class="panel">
-      <h1>Buy Your License Key</h1>
-      <p>Unlock Oreo Cheats — advanced aim assist for supported and allowed games, with real-time player detection and precision tracking.</p>
-      <button onclick="window.sellAuthEmbed.checkout(this, {cart: [{productId: 422494, variantId: 611096, quantity: 1}], shopId: 171569})">
-        Buy License Key
+      <h1>Ready to win every match? 👀</h1>
+      <p>Unlock Oreo Cheats — advanced aim assist for all games, with real-time player detection and precision tracking, you will dominate all lobbies. 👑</p>
+      
+      <!-- Buy Button -->
+      <button id="buyBtn" onclick="window.sellAuthEmbed.checkout(this, {cart: [{productId: 422494, variantId: 611096, quantity: 1}], shopId: 171569})">
+        Purchase Oreo Aim
         <svg width="18" height="18" viewBox="0 0 24 24">
           <path fill="currentColor" d="M12 2l3 7h7l-5.6 4 2.2 7L12 16l-6.6 4 2.2-7L2 9h7z"/>
         </svg>
       </button>
+
+      <!-- Discord Button -->
+      <a href="https://discord.gg/zucv8gvNfs" target="_blank" class="discord-btn">
+        Join Discord For Updates
+      </a>
     </div>
 
     <div class="video-section">
       <h2>Example of Aim Assist</h2>
       <video controls autoplay muted loop>
         <source src="https://files.catbox.moe/0oh3v8.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+        Your browser is bad, please use another one.
       </video>
     </div>
   </main>
 
   <script>
+    function showPromoPopup() {
+      document.getElementById("promoPopup").style.display = "flex";
+    }
+    function closePromo() {
+      const popupContent = document.getElementById("promoPopupContent");
+      popupContent.classList.add("closing");
+      setTimeout(() => {
+        document.getElementById("promoPopup").style.display = "none";
+      }, 400);
+    }
+
+    // Show popup after loading
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("loadingOverlay").classList.add("hidden");
+        setTimeout(showPromoPopup, 500);
       }, 800);
+    });
+
+    // Show note when hovering near Buy button
+    const buyBtn = document.getElementById("buyBtn");
+    const promoNote = document.getElementById("promoNote");
+
+    buyBtn.addEventListener("mouseenter", () => {
+      promoNote.style.display = "block";
+    });
+    buyBtn.addEventListener("mouseleave", () => {
+      promoNote.style.display = "none";
     });
   </script>
 </body>
