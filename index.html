@@ -1,127 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>mangos.click login</title>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Oreo Cheats — License Portal</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Oreo Cheats — License Portal" />
+  <meta property="og:description" content="Purchase a license for Oreo Cheats — advanced aim assistance for all games." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mangos.click" />
+  <meta property="og:image" content="https://static.wixstatic.com/media/bcc93e_90cfaae0b5684d98b09911eaa61d939f~mv2.png/v1/fill/w_298,h_378,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/miperro.png" />
+  <meta name="theme-color" content="#0b0b0b" />
+
+  <!-- SellAuth -->
+  <script src="https://sellauth.com/assets/js/sellauth-embed-2.js" defer></script>
+
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f3f4f6;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
+    :root{
+      --bg:#0f0f0f;
+      --accent:linear-gradient(135deg,#ff9d00,#ff5c5c);
+      --muted:#bdbdbd;
+      --radius:16px;
     }
-    .card {
-      background: white;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-      width: 100%;
-      max-width: 380px;
-      transform: scale(1.05);
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Arial, sans-serif;
+      color:#fff;
+      background:var(--bg);
+      display:flex;
+      flex-direction:column;
+      height:100vh;
+      opacity:0;
+      animation:fadeIn 1s ease forwards;
     }
-    h2 {
-      font-size: 1.8rem;
-      font-weight: 800;
-      text-align: center;
-      margin-bottom: 1.5rem;
-      color: #1f2937;
+    header{
+      display:flex;
+      align-items:center;
+      padding:20px;
+      background:rgba(255,255,255,0.05);
+      border-bottom:1px solid rgba(255,255,255,0.1);
+      animation:slideDown 1s ease forwards;
     }
-    input {
-      width: 100%;
-      padding: 0.6rem 0.8rem;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
-      margin-bottom: 1rem;
-      font-size: 1rem;
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:20px;
+      font-weight:bold;
     }
-    button {
-      width: 100%;
-      padding: 0.75rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 0.5rem;
-      background-color: black;
-      color: white;
-      cursor: pointer;
-      transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+    .icon{
+      width:36px;
+      height:36px;
+      border-radius:50%;
+      background:var(--accent);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:bold;
+      font-size:14px;
     }
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    main{
+      flex:1;
+      display:flex;
+      flex-direction:row;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      gap:30px;
+      animation:fadeUp 1s ease forwards;
     }
-    .search-form {
-      margin-bottom: 1.5rem;
-      width: 100%;
-      max-width: 380px;
-      position: relative;
+    .panel{
+      background:rgba(255,255,255,0.05);
+      border-radius:var(--radius);
+      padding:30px;
+      text-align:center;
+      max-width:500px;
+      width:100%;
+      transform:translateY(20px);
+      animation:fadeUp 1s ease 0.3s forwards;
     }
-    .search-form input {
-      padding-left: 2.5rem;
+    h1{margin-bottom:10px;font-size:28px}
+    p{color:var(--muted);margin-bottom:20px}
+
+    /* Button styles + hover animation */
+    button{
+      background:var(--accent);
+      border:none;
+      padding:14px 24px;
+      border-radius:8px;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      color:white;
+      transition:transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .search-icon {
-      position: absolute;
-      top: 50%;
-      left: 0.75rem;
-      transform: translateY(-50%);
-      color: #9ca3af;
-      font-size: 1rem;
+    button:hover{
+      transform:scale(1.05) translateY(-2px);
+      box-shadow:0 6px 20px rgba(255,92,92,0.4);
+    }
+
+    /* Video showcase */
+    .video-section{
+      max-width:600px;
+      width:100%;
+      text-align:center;
+      transform:translateY(20px);
+      animation:fadeUp 1s ease 0.5s forwards;
+    }
+    .video-section h2{
+      margin-bottom:10px;
+      font-size:20px;
+    }
+    video{
+      width:100%;
+      border-radius:var(--radius);
+      outline:none;
+    }
+
+    /* Loading overlay */
+    #loadingOverlay{
+      position:fixed;
+      top:0;left:0;
+      width:100%;height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,0.5);
+      z-index:9999;
+      transition:opacity 0.5s ease;
+    }
+    #loadingOverlay.hidden{
+      opacity:0;
+      pointer-events:none;
+    }
+    .spinner{
+      width:60px;
+      height:60px;
+      border:6px solid rgba(255,255,255,0.3);
+      border-top:6px solid white;
+      border-radius:50%;
+      animation:spin 0.8s linear infinite;
+    }
+    @keyframes spin{
+      to{transform:rotate(360deg)}
+    }
+
+    /* Keyframes */
+    @keyframes fadeIn{
+      to{opacity:1}
+    }
+    @keyframes slideDown{
+      from{transform:translateY(-20px);opacity:0}
+      to{transform:translateY(0);opacity:1}
+    }
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(20px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    /* Responsive */
+    @media (max-width:900px){
+      main{
+        flex-direction:column;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Loading -->
+  <div id="loadingOverlay"><div class="spinner"></div></div>
 
-  <form id="search-form" class="search-form">
-    <span class="search-icon">🔍</span>
-    <input id="search" type="text" placeholder="Search user..." />
-  </form>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <div class="icon">OC</div>
+      Oreo Cheats
+    </div>
+  </header>
 
-  <div class="card">
-    <h2>mangos.click vouch service</h2>
-    <form id="login-form">
-      <input type="email" placeholder="Email" required />
-      <input type="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-  </div>
+  <!-- Main content -->
+  <main>
+    <div class="panel">
+      <h1>Buy Your License Key</h1>
+      <p>Unlock Oreo Cheats — advanced aim assist for supported and allowed games, with real-time player detection and precision tracking.</p>
+      <button onclick="window.sellAuthEmbed.checkout(this, {cart: [{productId: 422494, variantId: 611096, quantity: 1}], shopId: 171569})">
+        Buy License Key
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M12 2l3 7h7l-5.6 4 2.2 7L12 16l-6.6 4 2.2-7L2 9h7z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="video-section">
+      <h2>Example of Aim Assist</h2>
+      <video controls autoplay muted loop>
+        <source src="https://files.catbox.moe/0oh3v8.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </main>
 
   <script>
-    document.getElementById('search-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const search = document.getElementById('search').value.trim().toLowerCase();
-      if (search === 'ventanita_mango') {
-        window.location.href = 'https://mangos.click/ventanitamango';
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'User not found',
-          text: `No results for "${search}"`,
-          customClass: {
-            popup: 'text-lg'
-          },
-        });
-      }
-    });
-
-    document.getElementById('login-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: 'Invalid username or password.',
-        customClass: {
-          popup: 'text-lg'
-        },
-      });
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("loadingOverlay").classList.add("hidden");
+      }, 800);
     });
   </script>
-
 </body>
 </html>
