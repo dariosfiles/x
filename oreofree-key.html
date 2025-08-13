@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Key Access</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    .hidden { display: none; }
+    .key { font-size: 1.5em; color: green; white-space: pre-wrap; }
+  </style>
+  <!-- SweetAlert2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+</head>
+<body>
+  <h1>Oreo Aim FREE 🎯 [ if u paid for this u got scammed ]</h1>
+  <p id="message">Checking access...</p>
+  <div id="keyBox" class="hidden">
+    <p>Your key:</p>
+    <pre id="keyContent" class="key"></pre>
+  </div>
+
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    const ref = document.referrer.toLowerCase();
+    const keyUrl = "https://gist.githubusercontent.com/dariosfiles/3681ac34ff64a6ed5f6954d901152ba7/raw/0f822c07c69011e0e92da2e4bb5eebd9f9bce05e/Ykitsthekey.txt";
+
+    if (ref.includes("rekonise.com")) {
+      document.getElementById("message").textContent = "Access granted. Loading key...";
+      
+      fetch(keyUrl)
+        .then(res => res.text())
+        .then(text => {
+          document.getElementById("keyContent").textContent = text;
+          document.getElementById("keyBox").classList.remove("hidden");
+        })
+        .catch(err => {
+          document.getElementById("message").textContent = "Error loading key.";
+        });
+
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: '🚫 Bypass Detected 🚫',
+        html: 'Please do not attempt to bypass Oreo AI, we made the product free :( <br>If you think this was a mistake, contact the owner of Oreo AI on Discord.',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        window.location.href = 'https://rekonise.com/oreo-ai-free-complete-to-unlock-key-bu05z';
+      });
+    }
+  </script>
+</body>
+</html>
