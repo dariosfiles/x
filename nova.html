@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Executor</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+    body { background: #121212; color: #fff; min-height: 100vh; overflow-x: hidden; }
+
+    header { text-align: center; padding: 60px 20px 40px 20px; }
+
+    header h1 {
+        font-size: 48px;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+
+    header p { font-size: 18px; color: #ccc; }
+
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background: #1e1e1e;
+        border-radius: 16px;
+        padding: 30px 20px;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    }
+
+    .card h2 {
+        font-size: 24px;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+
+    .card p { font-size: 14px; color: #ccc; }
+
+    .download-section { text-align: center; margin: 50px 0; }
+
+    .download-btn {
+        display: inline-block;
+        padding: 16px 36px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        border: none;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    }
+
+    .download-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.5);
+    }
+
+    .special-feature {
+        background: #1e1e1e;
+        border-radius: 16px;
+        max-width: 900px;
+        margin: 60px auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 30px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+
+    .special-feature img {
+        max-width: 400px;
+        width: 100%;
+        border-radius: 12px;
+        margin-right: 30px;
+    }
+
+    .special-feature .text {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .special-feature h2 {
+        font-size: 32px;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 15px;
+    }
+
+    .special-feature p { font-size: 16px; color: #ccc; }
+
+    footer { text-align: center; font-size: 12px; color: #666; margin: 40px 0 20px 0; }
+
+    /* Custom Context Menu */
+    #context-menu {
+        position: absolute;
+        background: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 8px;
+        padding: 10px;
+        display: none;
+        z-index: 9999;
+        min-width: 180px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+
+    #context-menu button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background: transparent;
+        color: #fff;
+        text-align: left;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.2s;
+        border-radius: 6px;
+        margin-bottom: 5px;
+    }
+
+    #context-menu button:hover { background: #2575fc; }
+
+    /* Nova Up-to-date Indicator */
+    .status-indicator {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+        gap: 8px;
+    }
+
+    .status-indicator .dot {
+        width: 10px;
+        height: 10px;
+        background: #00ff00;
+        border-radius: 50%;
+        animation: beep 1s infinite;
+    }
+
+    @keyframes beep {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.5; }
+    }
+
+    .status-indicator span {
+        font-size: 14px;
+        color: #0f0;
+    }
+
+    @media(max-width: 800px) {
+        .special-feature { flex-direction: column; text-align: center; }
+        .special-feature img { margin: 0 0 20px 0; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Nova Executor</h1>
+    <p>Fast, smooth, and reliable Roblox executor for all your scripting needs</p>
+</header>
+
+<div class="container">
+    <div class="card">
+        <h2>99% UNC</h2>
+        <p>Nova Executor is compatible with almost all Roblox games, providing unmatched support and performance.</p>
+    </div>
+    <div class="card">
+        <h2>Best Executor</h2>
+        <p>Optimized for speed and reliability. Execute scripts with confidence using the most trusted Roblox executor.</p>
+    </div>
+    <div class="card">
+        <h2>Smooth Script Running</h2>
+        <p>Run scripts efficiently with zero lag and enjoy the smoothest execution experience available.</p>
+    </div>
+</div>
+
+<!-- Audio for click -->
+<audio id="click-sound" src="https://www.myinstants.com/media/sounds/mouse-click-by-ek6_VR0O6PL.mp3" preload="auto"></audio>
+
+<div class="download-section">
+    <a href="https://www.dropbox.com/scl/fi/g8aq1zdb5lxudov7ga2uo/NovaRelease.zip?rlkey=j81qhsfyhrenbfjoati955hpl&st=og9xdgw1&dl=1" 
+       class="download-btn" download
+       onclick="document.getElementById('click-sound').play();">
+       Download Nova Now
+    </a>
+</div>
+
+<div class="special-feature">
+    <img src="https://tr.rbxcdn.com/180DAY-e4f5ae4a5d3f7bf1887e91a88b36931b/768/432/Image/Webp/noFilter" alt="Steal A Brainrot">
+    <div class="text">
+        <h2>Steal A Brainrot Support</h2>
+        <p>Our Executor has by default a script to steal the best brainrots and dominate in Steal A Brainrot.</p>
+    </div>
+</div>
+
+<footer>© 2025 Nova Executor. All rights reserved.</footer>
+
+<!-- Custom Context Menu -->
+<div id="context-menu">
+    <button onclick="location.reload(); document.getElementById('click-sound').play();">Refresh</button>
+    <button onclick="downloadNova(); document.getElementById('click-sound').play();">Download Nova</button>
+    <div class="status-indicator">
+        <div class="dot"></div>
+        <span>Nova is up-to-date</span>
+    </div>
+</div>
+
+<script>
+    const contextMenu = document.getElementById('context-menu');
+
+    // Disable default right-click menu
+    window.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        contextMenu.style.top = e.pageY + 'px';
+        contextMenu.style.left = e.pageX + 'px';
+        contextMenu.style.display = 'block';
+    });
+
+    // Hide custom menu on click elsewhere
+    window.addEventListener('click', function() {
+        contextMenu.style.display = 'none';
+    });
+
+    function downloadNova() {
+        const link = document.createElement('a');
+        link.href = "https://www.dropbox.com/scl/fi/g8aq1zdb5lxudov7ga2uo/NovaRelease.zip?rlkey=j81qhsfyhrenbfjoati955hpl&st=og9xdgw1&dl=1";
+        link.download = "NovaRelease.zip";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
+
+</body>
+</html>
