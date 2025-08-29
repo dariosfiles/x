@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini OS Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    user-select: none;
+    transition: background 0.3s;
+}
+.desktop {
+    width: 100vw;
+    height: calc(100vh - 40px);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding: 20px;
+    position: relative;
+}
+.icon {
+    width: 80px;
+    text-align: center;
+    margin: 10px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+.icon img { width: 64px; height: 64px; }
+.window {
+    position: absolute;
+    background: #1f2833;
+    border: 2px solid #0078D7;
+    border-radius: 6px;
+    width: 400px;
+    min-height: 250px;
+    z-index: 10;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+.window-header {
+    background: #0078D7;
+    padding: 5px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.window-content {
+    flex: 1;
+    padding: 10px;
+    overflow: auto;
+}
+.window-button {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 5px;
+}
+.wallpaper-thumb { width: 80px; margin: 5px; cursor: pointer; border: 2px solid white; border-radius: 6px; }
+.selection-rect {
+    position: absolute;
+    border: 1px solid #4da6ff;
+    background-color: rgba(0, 120, 215, 0.3);
+    pointer-events: none;
+    z-index: 1000;
+}
+.taskbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: #1f2833;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border-top: 2px solid #0078D7;
+}
+.start-button {
+    background: #0078D7;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.taskbar-windows { display: flex; gap: 5px; }
+.taskbar-windows button {
+    background: #0b0c10;
+    border: 1px solid #0078D7;
+    color: white;
+    padding: 3px 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.start-menu {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 200px;
+    background: #1f2833;
+    border: 1px solid #0078D7;
+    display: none;
+    flex-direction: column;
+}
+.start-menu button {
+    background: none;
+    border: none;
+    color: white;
+    padding: 8px 10px;
+    text-align: left;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div class="desktop" id="desktop">
+    <div class="icon" id="calcIcon"><img src="https://cdn-icons-png.flaticon.com/512/992/992700.png"><div>Calculator</div></div>
+    <div class="icon" id="notesIcon"><img src="https://cdn-icons-png.flaticon.com/512/2910/2910760.png"><div>Notes</div></div>
+    <div class="icon" id="browserIcon"><img src="https://cdn-icons-png.flaticon.com/512/841/841364.png"><div>Browser</div></div>
+    <div class="icon" id="galleryIcon"><img src="https://cdn-icons-png.flaticon.com/512/2921/2921822.png"><div>Gallery</div></div>
+    <div class="icon" id="settingsIcon"><img src="https://cdn-icons-png.flaticon.com/512/3524/3524639.png"><div>Settings</div></div>
+    <div class="icon" id="vpnIcon"><img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png"><div>VPN</div></div>
+</div>
+
+<!-- Taskbar -->
+<div class="taskbar">
+    <button class="start-button" id="startBtn">Start</button>
+    <div class="taskbar-windows" id="taskbarWindows"></div>
+    <div id="clock"></div>
+</div>
+
+<!-- Start Menu -->
+<div class="start-menu" id="startMenu">
+    <button id="startCalc">Calculator</button>
+    <button id="startNotes">Notes</button>
+    <button id="startBrowser">Browser</button>
+    <button id="startGallery">Gallery</button>
+    <button id="startSettings">Settings</button>
+    <button id="startVPN">VPN</button>
+</div>
+
+<script>
+let zIndexCounter = 1;
+const wallpapers = [
+    'https://static.wixstatic.com/media/bcc93e_90cfaae0b5684d98b09911eaa61d939f~mv2.png',
+    'https://static.wixstatic.com/media/bcc93e_69cde21753dd4400abda987d7d1c8128~mv2.png'
+];
+document.body.style.backgroundImage = `url('${wallpapers[0]}')`;
+
+const desktop = document.getElementById('desktop');
+const taskbarWindows = document.getElementById('taskbarWindows');
+const startBtn = document.getElementById('startBtn');
+const startMenu = document.getElementById('startMenu');
+
+function createWindow(title, contentHTML, id=null) {
+    const win = document.createElement('div');
+    win.classList.add('window');
+    win.style.top = '50px';
+    win.style.left = '50px';
+    win.style.zIndex = zIndexCounter++;
+    if(id) win.dataset.winId = id;
+    win.innerHTML = `<div class="window-header"><span>${title}</span>
+        <div><button class="window-button minimize">—</button><button class="window-button close">×</button></div>
+        </div><div class="window-content">${contentHTML}</div>`;
+    document.body.appendChild(win);
+
+    const header = win.querySelector('.window-header');
+    let offsetX, offsetY, isDragging = false;
+    header.addEventListener('mousedown', e=>{isDragging=true;offsetX=e.clientX-win.offsetLeft;offsetY=e.clientY-win.offsetTop;win.style.zIndex=zIndexCounter++;});
+    document.addEventListener('mousemove', e=>{if(isDragging){win.style.left=e.clientX-offsetX+'px';win.style.top=e.clientY-offsetY+'px';}});
+    document.addEventListener('mouseup', ()=>isDragging=false);
+
+    win.querySelector('.close').addEventListener('click', ()=>{
+        win.remove();
+        if(id){ const tbBtn=document.querySelector(`[data-btn-id="${id}"]`); if(tbBtn) tbBtn.remove(); }
+    });
+    win.querySelector('.minimize').addEventListener('click', ()=>{
+        const content = win.querySelector('.window-content');
+        content.style.display = content.style.display==='none'?'block':'none';
+    });
+
+    if(id){
+        const tbBtn = document.createElement('button');
+        tbBtn.textContent = title;
+        tbBtn.dataset.btnId = id;
+        tbBtn.addEventListener('click', ()=>{
+            const isHidden = win.querySelector('.window-content').style.display==='none';
+            win.querySelector('.window-content').style.display=isHidden?'block':'none';
+            win.style.zIndex=zIndexCounter++;
+        });
+        taskbarWindows.appendChild(tbBtn);
+    }
+
+    return win;
+}
+
+// Apps
+function openCalculator(){ createWindow('🖩 Calculator','<input type="text" id="calcInput" style="width:100%;padding:5px;margin-bottom:5px;"><button id="calcButton" style="width:100%;padding:5px;background:#0078D7;border:none;color:white;cursor:pointer;">Calculate</button><div id="calcResult" style="margin-top:10px;"></div>','calcWin'); const win=document.querySelector('[data-win-id="calcWin"]'); win.querySelector('#calcButton').addEventListener('click',()=>{try{win.querySelector('#calcResult').textContent='Result: '+eval(win.querySelector('#calcInput').value);}catch{win.querySelector('#calcResult').textContent='Invalid expression';}});}
+function openNotes(){ createWindow('📝 Notes','<textarea style="width:100%;height:300px;background:#0b0c10;color:white;padding:5px;border:none;resize:none;" placeholder="Type your notes..."></textarea>','notesWin');}
+function openBrowser(){ createWindow('🌐 Browser','<input type="text" id="browserInput" placeholder="Search or URL" style="width:100%;padding:5px;margin-bottom:5px;"><button id="browseButton" style="width:100%;padding:5px;background:#0078D7;border:none;color:white;cursor:pointer;">Go</button>','browserWin'); const win=document.querySelector('[data-win-id="browserWin"]'); win.querySelector('#browseButton').addEventListener('click',()=>{let url=win.querySelector('#browserInput').value.trim();if(!/^https?:\/\//i.test(url))url='https://www.google.com/search?q='+encodeURIComponent(url);window.open(url,'_blank');});}
+function openGallery(){ const html=wallpapers.map(url=>`<img src="${url}" class="wallpaper-thumb">`).join(''); const win=createWindow('🖼️ Gallery',html,'galleryWin'); win.querySelectorAll('.wallpaper-thumb').forEach(img=>{img.addEventListener('click',()=>document.body.style.backgroundImage=`url('${img.src}')`);});}
+function openSettings(){ const html=`<p>Change Wallpaper:</p><div>${wallpapers.map(url=>`<img src="${url}" class="wallpaper-thumb">`).join('')}</div>`; const win=createWindow('⚙️ Settings',html,'settingsWin'); win.querySelectorAll('.wallpaper-thumb').forEach(img=>{img.addEventListener('click',()=>document.body.style.backgroundImage=`url('${img.src}')`);});}
+function openVPN() {
+    const html = `
+        <div style="position:relative;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <h3>VPN Simulator</h3>
+                <span id="vpnInfo" style="cursor:help;font-weight:bold;">❓</span>
+            </div>
+            <p>Your IP: <span id="ipDisplay" style="color:red;">Loading...</span></p>
+            <button id="vpnBtn" style="width:100%;padding:5px;background:#0078D7;border:none;color:white;cursor:pointer;">CONNECT</button>
+            <div id="tooltip" style="position:absolute;top:0;right:0;background:#1f2833;color:white;padding:5px;border-radius:4px;display:none;font-size:0.8em;max-width:220px;">This VPN doesn't hide your IP really, this is fake.</div>
+        </div>
+    `;
+
+    const win = createWindow('🛡️ VPN', html, 'vpnWin');
+    const ipDisplay = win.querySelector('#ipDisplay');
+    const tooltip = win.querySelector('#tooltip');
+    const info = win.querySelector('#vpnInfo');
+    const btn = win.querySelector('#vpnBtn');
+
+    let realIP = '';
+    let interval;
+
+    // Fetch real IP
+    fetch('https://api.ipify.org?format=json')
+        .then(res => res.json())
+        .then(data => {
+            realIP = data.ip;
+            ipDisplay.textContent = realIP;
+            ipDisplay.style.color = 'red';
+        })
+        .catch(() => {
+            realIP = 'Unable to fetch IP';
+            ipDisplay.textContent = realIP;
+        });
+
+    info.addEventListener('mouseenter', () => tooltip.style.display = 'block');
+    info.addEventListener('mouseleave', () => tooltip.style.display = 'none');
+
+    btn.addEventListener('click', () => {
+        if (btn.textContent === 'CONNECT') {
+            // Generate random fake IP
+            const fakeIP = Array.from({length: 4}, () => Math.floor(Math.random() * 256)).join('.');
+            ipDisplay.textContent = '';
+            ipDisplay.style.color = 'lime';
+
+            let idx = 0;
+            interval = setInterval(() => {
+                if (idx < fakeIP.length) {
+                    ipDisplay.textContent += fakeIP[idx];
+                    idx++;
+                } else {
+                    clearInterval(interval);
+                    btn.textContent = 'DISCONNECT';
+                }
+            }, 100);
+        } else {
+            // Disconnect: revert to real IP
+            if (interval) clearInterval(interval);
+            ipDisplay.textContent = realIP;
+            ipDisplay.style.color = 'red';
+            btn.textContent = 'CONNECT';
+        }
+    });
+}
+
+
+// Icon double-click
+document.getElementById('calcIcon').addEventListener('dblclick',openCalculator);
+document.getElementById('notesIcon').addEventListener('dblclick',openNotes);
+document.getElementById('browserIcon').addEventListener('dblclick',openBrowser);
+document.getElementById('galleryIcon').addEventListener('dblclick',openGallery);
+document.getElementById('settingsIcon').addEventListener('dblclick',openSettings);
+document.getElementById('vpnIcon').addEventListener('dblclick',openVPN);
+
+// Start Menu
+startBtn.addEventListener('click',()=>{startMenu.style.display=startMenu.style.display==='flex'?'none':'flex';});
+document.getElementById('startCalc').addEventListener('click',()=>{openCalculator(); startMenu.style.display='none';});
+document.getElementById('startNotes').addEventListener('click',()=>{openNotes(); startMenu.style.display='none';});
+document.getElementById('startBrowser').addEventListener('click',()=>{openBrowser(); startMenu.style.display='none';});
+document.getElementById('startGallery').addEventListener('click',()=>{openGallery(); startMenu.style.display='none';});
+document.getElementById('startSettings').addEventListener('click',()=>{openSettings(); startMenu.style.display='none';});
+document.getElementById('startVPN').addEventListener('click',()=>{openVPN(); startMenu.style.display='none';});
+
+// Clock
+function updateClock(){
+    const now=new Date();
+    document.getElementById('clock').textContent=now.toLocaleTimeString();
+}
+setInterval(updateClock,1000); updateClock();
+
+// Desktop selection rectangle
+let selectionRect=null,startX,startY;
+desktop.addEventListener('mousedown',e=>{if(e.target!==desktop)return; startX=e.clientX;startY=e.clientY;selectionRect=document.createElement('div');selectionRect.className='selection-rect';selectionRect.style.left=startX+'px';selectionRect.style.top=startY+'px';desktop.appendChild(selectionRect);});
+desktop.addEventListener('mousemove',e=>{if(!selectionRect)return; const cx=e.clientX;const cy=e.clientY; selectionRect.style.left=Math.min(startX,cx)+'px'; selectionRect.style.top=Math.min(startY,cy)+'px'; selectionRect.style.width=Math.abs(cx-startX)+'px'; selectionRect.style.height=Math.abs(cy-startY)+'px';});
+desktop.addEventListener('mouseup',e=>{if(selectionRect) selectionRect.remove(); selectionRect=null;});
+</script>
+</body>
+</html>
