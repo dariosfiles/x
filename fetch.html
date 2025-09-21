@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Blue Scripts — Steal A Brainrot Stealer</title>
+<meta name="description" content="Blue Scripts — elegant, modern landing page for Steal A Brainrot Stealer. Dark-blue, glassy design, responsive and accessible." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<script src="https://sellauth.com/assets/js/sellauth-embed-2.js"></script>
+<style>
+:root{
+  --bg:#071233;
+  --navy-1:#0b2a5a;
+  --navy-2:#073b8a;
+  --accent:#4da3ff;
+  --glass: rgba(255,255,255,0.04);
+  --glass-2: rgba(255,255,255,0.02);
+  --muted: rgba(255,255,255,0.65);
+  --radius:14px;
+  color-scheme: dark;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  min-height:100%;
+  background:radial-gradient(1200px 600px at 10% 10%, rgba(77,163,255,0.06), transparent), linear-gradient(180deg,var(--bg), #041028 120%);
+  color:#eaf2ff;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding:72px 24px 48px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  animation:fadeIn 1.2s ease;
+}
+.container{width:1200px;max-width:1100px;display:flex;flex-direction:column;gap:28px}
+@keyframes fadeIn {from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.title-bar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:56px;
+  background:linear-gradient(90deg,var(--navy-2),var(--navy-1));
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  z-index:1000;
+  box-shadow:0 2px 8px rgba(0,0,0,0.4);
+  animation:slideDown 0.8s ease;
+}
+@keyframes slideDown {from{transform:translateY(-100%)}to{transform:translateY(0)}}
+.title-left{display:flex;align-items:center;gap:10px}
+.title-bar .logo{
+  width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--accent),#6bd0ff);
+  box-shadow:0 2px 8px rgba(0,0,0,0.4);
+  animation:spinIn 1s ease;
+}
+@keyframes spinIn {from{transform:rotate(-180deg) scale(0);opacity:0}to{transform:rotate(0) scale(1);opacity:1}}
+.title-bar .logo svg{width:18px;height:18px;stroke:#021428}
+.title-bar .title{font-weight:700;font-size:16px;letter-spacing:0.5px}
+.title-bar nav{display:flex;gap:14px}
+.title-bar nav a{
+  color:#fff;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  opacity:0.9;
+  transition:all .3s;
+  background:linear-gradient(90deg,var(--accent),#6bd0ff);
+  padding:6px 12px;
+  border-radius:8px;
+  color:#021428;
+  box-shadow:0 2px 6px rgba(0,0,0,0.3);
+  animation:pulse 2s infinite;
+  cursor:pointer;
+}
+.title-bar nav a:hover{opacity:1;transform:scale(1.05)}
+@keyframes pulse {0%,100%{box-shadow:0 0 8px rgba(77,163,255,0.6)}50%{box-shadow:0 0 16px rgba(107,208,255,0.9)}}
+.card{
+  background:linear-gradient(180deg,var(--glass),var(--glass-2));
+  border-radius:var(--radius);
+  padding:28px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border:1px solid rgba(255,255,255,0.04);
+  box-shadow:0 8px 32px rgba(0,0,0,0.35);
+  animation:fadeInUp 1s ease forwards;
+}
+@keyframes fadeInUp {from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+h1{font-size:40px;margin:0 0 12px;font-weight:800;animation:fadeIn 1.5s ease}
+p{color:var(--muted);line-height:1.4;font-size:16px;margin:0 0 18px;animation:fadeIn 2s ease}
+.price-tag{
+  font-size:22px;font-weight:800;color:#fff;background:linear-gradient(90deg,var(--accent),#6bd0ff);
+  display:inline-block;padding:8px 16px;border-radius:10px;margin-bottom:16px;
+  box-shadow:0 4px 12px rgba(77,163,255,0.5);
+  animation:popIn 1.4s ease;
+}
+ul{margin:0;padding-left:20px;color:var(--muted);font-size:16px;line-height:1.6;animation:fadeIn 2.2s ease}
+ul li::marker{color:var(--accent)}
+.buy-btn{
+  background:linear-gradient(90deg,var(--accent),#6bd0ff);
+  color:#021428;font-weight:700;font-size:16px;padding:12px 20px;border:none;border-radius:12px;cursor:pointer;
+  box-shadow:0 4px 14px rgba(77,163,255,0.4);
+  transition:transform .2s, box-shadow .2s, background .3s;
+  animation:popIn 1.4s ease;
+}
+.buy-btn:hover{
+  transform:translateY(-2px) scale(1.05);
+  box-shadow:0 6px 18px rgba(77,163,255,0.6);
+  background:linear-gradient(90deg,#6bd0ff,var(--accent));
+}
+.overlay{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;z-index:2000;
+  animation:fadeIn .3s ease;
+}
+.popup{
+  background:linear-gradient(180deg,var(--glass),var(--glass-2));
+  border-radius:var(--radius);
+  padding:24px 32px;min-width:300px;text-align:center;position:relative;
+  animation:popIn .4s ease;
+}
+.popup h2{margin:0 0 16px;font-size:24px;font-weight:700}
+.close-btn{
+  position:absolute;top:12px;right:12px;width:28px;height:28px;border:none;border-radius:50%;
+  background:#ff4d4d;color:#fff;font-weight:700;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.4);
+  animation:spinIn 0.5s ease;
+}
+.close-btn:hover{transform:rotate(90deg);transition:.3s}
+.options{display:flex;gap:12px;justify-content:center;margin-top:16px}
+.option-btn{
+  flex:1;background:linear-gradient(90deg,var(--accent),#6bd0ff);
+  border:none;border-radius:10px;padding:10px 0;font-weight:600;cursor:pointer;color:#021428;
+  transition:transform .2s, box-shadow .2s;
+}
+.option-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(77,163,255,0.6)}
+</style>
+</head>
+<body>
+<div class="title-bar">
+  <div class="title-left">
+    <div class="logo">
+      <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 12h12M12 6v12" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="title">Blue Scripts</div>
+  </div>
+  <nav>
+    <a id="getAccessBtn">Get Access</a>
+  </nav>
+</div>
+<main class="container">
+  <section class="card">
+    <h1>Steal A Brainrot Stealer</h1>
+    <div class="price-tag">10€ / 650 Robux</div>
+    <p>The best stealer on the market! Lifetime access guaranteed.</p>
+    <button class="buy-btn" id="buyBtn">Buy Now</button>
+  </section>
+  <section class="card">
+    <h1>Functions</h1>
+    <ul>
+      <li>Auto Private Server Teleport</li>
+      <li>Control victim's game (Leave)</li>
+      <li>Brainrot ESP</li>
+    </ul>
+  </section>
+</main>
+<div class="overlay" id="overlay">
+  <div class="popup">
+    <button class="close-btn" id="closeBtn">X</button>
+    <h2>Payment Method</h2>
+    <div class="options">
+      <button class="option-btn" id="paypalBtn">PayPal</button>
+      <button class="option-btn" id="robuxBtn">Robux</button>
+    </div>
+  </div>
+</div>
+<script>
+const buyBtn = document.getElementById('buyBtn');
+const getAccessBtn = document.getElementById('getAccessBtn');
+const overlay = document.getElementById('overlay');
+const closeBtn = document.getElementById('closeBtn');
+const paypalBtn = document.getElementById('paypalBtn');
+const robuxBtn = document.getElementById('robuxBtn');
+
+function showPopup(){ overlay.style.display = 'flex'; overlay.style.animation='fadeIn .3s ease'; }
+function hidePopup(){ overlay.style.animation = 'fadeOut .4s ease'; setTimeout(() => { overlay.style.display = 'none'; }, 400); }
+
+buyBtn.addEventListener('click', showPopup);
+getAccessBtn.addEventListener('click', showPopup);
+closeBtn.addEventListener('click', hidePopup);
+
+paypalBtn.addEventListener('click', () => {
+    hidePopup();
+    setTimeout(() => {
+        window.sellAuthEmbed.checkout(document.createElement('button'), {
+            cart: [{ productId: 471415, variantId: 693244, quantity: 1 }],
+            shopId: 133046,
+            modal: true
+        });
+    }, 400);
+});
+
+robuxBtn.addEventListener('click', () => {
+    window.open('https://www.roblox.com/game-pass/1481387283/Script', '_blank');
+    hidePopup();
+});
+
+const style = document.createElement('style');
+style.innerHTML = `@keyframes fadeOut {from{opacity:1} to{opacity:0}}`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
