@@ -1,366 +1,177 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Oreo Cheats — License Portal</title>
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Oreo Cheats — AI Aimbot" />
-  <meta property="og:description" content="Oreo Aim is a advanced aim assistance for all games, with Oreo Aim, you will dominate all lobbies easily." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://mangos.click" />
-  <meta property="og:image" content="https://via.placeholder.com/800x420.png?text=Oreo+Cheats" />
-  <meta name="theme-color" content="#0b0b0b" />
-
-  <!-- SellAuth -->
-  <script src="https://sellauth.com/assets/js/sellauth-embed-2.js" defer></script>
-
-  <style>
-    :root{
-      --bg:#0f0f0f;
-      --accent:linear-gradient(135deg,#ff9d00,#ff5c5c);
-      --muted:#bdbdbd;
-      --radius:16px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family:Arial, sans-serif;
-      color:#fff;
-      background:var(--bg);
-      display:flex;
-      flex-direction:column;
-      height:100vh;
-      opacity:0;
-      animation:fadeIn 1s ease forwards;
-    }
-    header{
-      display:flex;
-      align-items:center;
-      padding:20px;
-      background:rgba(255,255,255,0.05);
-      border-bottom:1px solid rgba(255,255,255,0.1);
-      animation:slideDown 1s ease forwards;
-    }
-    .logo{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-size:20px;
-      font-weight:bold;
-    }
-    .icon{
-      width:36px;
-      height:36px;
-      border-radius:50%;
-      background:var(--accent);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:bold;
-      font-size:14px;
-    }
-    main{
-      flex:1;
-      display:flex;
-      flex-direction:row;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      gap:30px;
-      animation:fadeUp 1s ease forwards;
-    }
-    .panel{
-      background:rgba(255,255,255,0.05);
-      border-radius:var(--radius);
-      padding:30px;
-      text-align:center;
-      max-width:500px;
-      width:100%;
-      transform:translateY(20px);
-      animation:fadeUp 1s ease 0.3s forwards;
-    }
-    h1{margin-bottom:10px;font-size:28px}
-    p{color:var(--muted);margin-bottom:20px}
-
-    button{
-      background:var(--accent);
-      border:none;
-      padding:14px 24px;
-      border-radius:8px;
-      font-size:16px;
-      font-weight:bold;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      color:white;
-      transition:transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    button:hover{
-      transform:scale(1.05) translateY(-2px);
-      box-shadow:0 6px 20px rgba(255,92,92,0.4);
-    }
-
-    /* Discord button */
-    .discord-btn {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 12px 20px;
-      background-color: #5865F2;
-      color: white;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 8px;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-    .discord-btn:hover {
-      background-color: #4752C4;
-      transform: translateY(-2px);
-    }
-
-    .video-section{
-      max-width:600px;
-      width:100%;
-      text-align:center;
-      transform:translateY(20px);
-      animation:fadeUp 1s ease 0.5s forwards;
-    }
-    .video-section h2{
-      margin-bottom:10px;
-      font-size:20px;
-    }
-    video{
-      width:100%;
-      border-radius:var(--radius);
-      outline:none;
-    }
-
-    /* Loading overlay */
-    #loadingOverlay{
-      position:fixed;
-      top:0;left:0;
-      width:100%;height:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:rgba(0,0,0,0.5);
-      z-index:9999;
-      transition:opacity 0.5s ease;
-    }
-    #loadingOverlay.hidden{
-      opacity:0;
-      pointer-events:none;
-    }
-    .spinner{
-      width:60px;
-      height:60px;
-      border:6px solid rgba(255,255,255,0.3);
-      border-top:6px solid white;
-      border-radius:50%;
-      animation:spin 0.8s linear infinite;
-    }
-    @keyframes spin{
-      to{transform:rotate(360deg)}
-    }
-
-    @keyframes fadeIn{
-      to{opacity:1}
-    }
-    @keyframes slideDown{
-      from{transform:translateY(-20px);opacity:0}
-      to{transform:translateY(0);opacity:1}
-    }
-    @keyframes fadeUp{
-      from{opacity:0;transform:translateY(20px)}
-      to{opacity:1;transform:translateY(0)}
-    }
-
-    @media (max-width:900px){
-      main{
-        flex-direction:column;
-      }
-    }
-
-    /* Promo Popup */
-    #promoPopup {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.75);
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      animation: fadeInBg 0.3s ease;
-    }
-    #promoPopupContent {
-      background: white;
-      color: black;
-      padding: 25px 35px;
-      border-radius: 16px;
-      text-align: center;
-      max-width: 420px;
-      font-family: Arial, sans-serif;
-      box-shadow: 0 0 25px rgba(255, 76, 76, 0.8);
-      border: 3px solid #ff4d4d;
-      animation: popupScale 0.4s ease, pulseBorder 1.5s infinite;
-    }
-    #promoPopupContent.closing {
-      animation: popupClose 0.4s ease forwards;
-    }
-    #promoPopupContent h2 {
-      font-size: 28px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #ff1a1a;
-      text-shadow: 0 0 8px rgba(255,0,0,0.7);
-    }
-    #promoPopupContent p {
-      font-size: 18px;
-      line-height: 1.4;
-      font-weight: bold;
-    }
-    #promoPopup button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      background: #ff4d4d;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-      animation: bounceButton 1.2s infinite;
-    }
-    #promoPopup button:hover {
-      background: #e63939;
-    }
-
-    /* Notification bubble */
-    #promoNote {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: white;
-      color: black;
-      padding: 12px 18px;
-      border-radius: 8px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.3);
-      font-size: 14px;
-      font-weight: bold;
-      display: none;
-      animation: fadeInBg 0.3s ease;
-      z-index: 9999;
-    }
-
-    @keyframes fadeInBg {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-    @keyframes popupScale {
-      from {transform: scale(0.8); opacity: 0;}
-      to {transform: scale(1); opacity: 1;}
-    }
-    @keyframes popupClose {
-      from {transform: scale(1); opacity: 1;}
-      to {transform: scale(0.8); opacity: 0;}
-    }
-    @keyframes pulseBorder {
-      0%, 100% {box-shadow: 0 0 20px rgba(255, 76, 76, 0.7);}
-      50% {box-shadow: 0 0 40px rgba(255, 76, 76, 1);}
-    }
-    @keyframes bounceButton {
-      0%, 100% {transform: translateY(0);}
-      50% {transform: translateY(-5px);}
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dice Rewards</title>
+<style>
+:root{--bg1:#0f172a;--bg2:#04263a;--accent:#7c3aed;--green:#10b981;--red:#ef4444}
+*{box-sizing:border-box;user-select:none}
+html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
+body{background: radial-gradient(1200px 800px at 10% 20%, rgba(124,58,237,0.14), transparent),radial-gradient(900px 600px at 90% 80%, rgba(3,105,161,0.12), transparent),linear-gradient(180deg,var(--bg1),var(--bg2));display:flex;align-items:center;justify-content:center;padding:32px;color:#e6eef8;}
+.card{width:min(720px,96vw);background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:20px;padding:28px;box-shadow:0 10px 30px rgba(2,6,23,0.6);display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:center;backdrop-filter: blur(6px);}
+.scene{display:flex;flex-direction:column;align-items:center;gap:18px}
+.die{width:220px;height:220px;border-radius:22px;background:linear-gradient(145deg,#0b1220 0%, #0f172a 100%);display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);padding:18px;gap:6px;position:relative;transform-origin:center;transition:transform 600ms cubic-bezier(.2,.9,.3,1), filter 300ms;box-shadow: inset 0 6px 18px rgba(255,255,255,0.02), 0 12px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03);}
+.die.rolling{animation: shake 700ms ease-in-out infinite; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.45));}
+@keyframes shake{0%{transform: rotate3d(1,1,0,0deg) translateY(0) scale(1)}25%{transform: rotate3d(1,1,0,10deg) translateY(-6px) scale(1.02)}50%{transform: rotate3d(1,0,1,-8deg) translateY(0) scale(0.98)}75%{transform: rotate3d(0,1,1,12deg) translateY(-4px) scale(1.01)}100%{transform: rotate3d(1,1,0,0deg) translateY(0) scale(1)}}
+.pip{width:28px;height:28px;border-radius:50%;background:linear-gradient(180deg,#fff 0%,#e6e6e6 100%);display:block;margin:auto;box-shadow: 0 6px 10px rgba(2,6,23,0.5);opacity:0;transform:scale(0.6);transition:opacity 180ms, transform 220ms;}
+.face-1 .pip[data-pos="c"]{opacity:1;transform:scale(1)}
+.face-2 .pip[data-pos="tl"],.face-2 .pip[data-pos="br"]{opacity:1;transform:scale(1)}
+.face-3 .pip[data-pos="tl"],.face-3 .pip[data-pos="c"],.face-3 .pip[data-pos="br"]{opacity:1;transform:scale(1)}
+.face-4 .pip[data-pos="tl"],.face-4 .pip[data-pos="tr"],.face-4 .pip[data-pos="bl"],.face-4 .pip[data-pos="br"]{opacity:1;transform:scale(1)}
+.face-5 .pip[data-pos="tl"],.face-5 .pip[data-pos="tr"],.face-5 .pip[data-pos="c"],.face-5 .pip[data-pos="bl"],.face-5 .pip[data-pos="br"]{opacity:1;transform:scale(1)}
+.face-6 .pip[data-pos="tl"],.face-6 .pip[data-pos="ml"],.face-6 .pip[data-pos="bl"],.face-6 .pip[data-pos="tr"],.face-6 .pip[data-pos="mr"],.face-6 .pip[data-pos="br"]{opacity:1;transform:scale(1)}
+.cell{display:flex;align-items:center;justify-content:center}
+.controls{display:flex;flex-direction:column;gap:12px;align-items:center}
+.btn{background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border-radius:12px;padding:12px 20px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;font-weight:600;letter-spacing:0.2px;box-shadow:0 6px 18px rgba(2,6,23,0.45);transition:transform 180ms, box-shadow 180ms;}
+.btn:active{transform:translateY(2px) scale(0.995)}
+.btn.primary{background:linear-gradient(90deg,var(--accent),#0ea5b0);color:white}
+.status{font-size:18px;font-weight:700}
+.message{font-size:14px;opacity:0.9}
+.win{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;pointer-events:none}
+.win .banner{background: linear-gradient(90deg, rgba(124,58,237,0.95), rgba(14,165,176,0.95));padding:16px 28px;border-radius:999px;font-size:22px;font-weight:800;color:white;box-shadow:0 10px 30px rgba(14,165,176,0.12);transform: translateY(-20px) scale(0.9);opacity:0;transition:transform 420ms cubic-bezier(.2,.9,.25,1), opacity 320ms;}
+.win.show .banner{transform: translateY(0) scale(1);opacity:1}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.confetti .piece{position:absolute;width:10px;height:14px;opacity:0;transform-origin:center;animation: fall 1400ms linear forwards}
+@keyframes fall{0%{opacity:1;transform: translateY(-10vh) rotateZ(0) translateX(0) scale(1)}100%{opacity:1;transform: translateY(110vh) rotateZ(540deg) translateX(80px) scale(1)}}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px);z-index:20;display:none}
+.popup{background:#0b1220;padding:28px;border-radius:16px;text-align:center;max-width:320px}
+.popup h3{margin-top:0;margin-bottom:12px;font-size:20px}
+.popup p{margin:0 0 16px;font-size:14px}
+.popup .btn{margin:0 8px}
+body.blur .card{filter:blur(5px)}
+</style>
 </head>
 <body>
-  <!-- Loading -->
-  <div id="loadingOverlay"><div class="spinner"></div></div>
-
-  <!-- Promo Popup -->
-  <div id="promoPopup">
-    <div id="promoPopupContent">
-      <h2>🔥 Want to get better at aiming? 🔥</h2>
-      <p>🎯 Use promo code <strong>JUSTAIM2</strong> at checkout for an exclusive discount and dominate the lobby for even cheaper!</p>
-      <button onclick="closePromo()">Okay!</button>
+<div class="card">
+  <div class="scene">
+    <div style="position:relative">
+      <div id="die" class="die face-1">
+        <div class="cell"> <span class="pip" data-pos="tl"></span> </div>
+        <div class="cell"> <span class="pip" data-pos="c"></span> </div>
+        <div class="cell"> <span class="pip" data-pos="tr"></span> </div>
+        <div class="cell"> <span class="pip" data-pos="ml"></span> </div>
+        <div class="cell"> <span class="pip" data-pos="mr"></span> </div>
+        <div class="cell"> <span class="pip" data-pos="bl"></span> </div>
+        <div class="cell"> <span class="pip" data-pos="c"></span> </div>
+        <div class="cell"> <span class="pip" data-pos="br"></span> </div>
+        <div class="cell"> <span class="pip" data-pos="c"></span> </div>
+      </div>
+      <div id="win" class="win" aria-hidden="true">
+        <div class="confetti" id="confetti"></div>
+        <div class="banner">YOU WON! 🎉</div>
+      </div>
+    </div>
+    <div class="controls">
+      <button id="rollBtn" class="btn primary">Roll</button>
+      <div class="status" id="status">Ready to roll</div>
     </div>
   </div>
+</div>
 
-  <!-- Notification -->
-  <div id="promoNote">
-    💡 Thinking about buying? Use code <strong>JUSTAIM2</strong> for an easy discount.
+<div class="overlay" id="overlay">
+  <div class="popup">
+    <h3>Are you in the Discord?</h3>
+    <p>If you are not in the Discord server, if you win, you will not get ur prize.</p>
+    <button id="yesBtn" class="btn" style="background:var(--green)">Yes</button>
+    <button id="noBtn" class="btn" style="background:var(--red)">No</button>
   </div>
+</div>
 
-  <!-- Header -->
-  <header>
-    <div class="logo">
-      <div class="icon">OC</div>
-      Oreo Cheats
-    </div>
-  </header>
+<script>
+(function(){
+  const die = document.getElementById('die');
+  const btn = document.getElementById('rollBtn');
+  const win = document.getElementById('win');
+  const confetti = document.getElementById('confetti');
+  const overlay = document.getElementById('overlay');
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  const status = document.getElementById('status');
+  let rolling = false;
 
-  <!-- Main content -->
-  <main>
-    <div class="panel">
-      <h1>Ready to win every match? 👀</h1>
-      <p>Unlock Oreo Cheats — advanced aim assist for all games, with real-time player detection and precision tracking, you will dominate all lobbies. 👑</p>
-      
-      <!-- Buy Button -->
-      <button id="buyBtn" onclick="window.sellAuthEmbed.checkout(this, {cart: [{productId: 422494, variantId: 611096, quantity: 1}], shopId: 171569})">
-        Purchase Oreo Aim
-        <svg width="18" height="18" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M12 2l3 7h7l-5.6 4 2.2 7L12 16l-6.6 4 2.2-7L2 9h7z"/>
-        </svg>
-      </button>
-
-      <!-- Discord Button -->
-      <a href="https://discord.gg/zucv8gvNfs" target="_blank" class="discord-btn">
-        Join Discord For Updates
-      </a>
-    </div>
-
-    <div class="video-section">
-      <h2>Example of Aim Assist</h2>
-      <video controls autoplay muted loop>
-        <source src="https://files.catbox.moe/0oh3v8.mp4" type="video/mp4">
-        Your browser is bad, please use another one.
-      </video>
-    </div>
-  </main>
-
-  <script>
-    function showPromoPopup() {
-      document.getElementById("promoPopup").style.display = "flex";
+  function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+  function clearConfetti(){while(confetti.firstChild) confetti.removeChild(confetti.firstChild);}
+  function spawnConfetti(){
+    clearConfetti();
+    const colours=['#7c3aed','#06b6d4','#f59e0b','#ef4444','#10b981','#60a5fa'];
+    for(let i=0;i<36;i++){
+      const el=document.createElement('div');
+      el.className='piece';
+      el.style.width=randInt(6,12)+'px';
+      el.style.height=randInt(10,18)+'px';
+      el.style.left=(Math.random()*100)+'%';
+      el.style.background=colours[i%colours.length];
+      el.style.transform=`translateY(-20vh) rotate(${randInt(0,360)}deg)`;
+      el.style.animationDuration=(1200+Math.random()*800)+'ms';
+      el.style.animationDelay=(Math.random()*120)+'ms';
+      confetti.appendChild(el);
     }
-    function closePromo() {
-      const popupContent = document.getElementById("promoPopupContent");
-      popupContent.classList.add("closing");
-      setTimeout(() => {
-        document.getElementById("promoPopup").style.display = "none";
-      }, 400);
+  }
+
+  function setFace(n){die.className='die face-'+n;}
+
+  async function roll(){
+    if(rolling) return;
+    rolling=true;
+    win.classList.remove('show'); win.setAttribute('aria-hidden','true'); clearConfetti();
+    die.classList.add('rolling');
+    const flickerCount = randInt(8,14);
+    for(let i=0;i<flickerCount;i++){ setFace(randInt(1,5)); await new Promise(r=>setTimeout(r,60+Math.random()*80)); }
+    await new Promise(r=>setTimeout(r,120));
+    const final = Math.random()<0.02?6:randInt(1,5);
+    setFace(final); die.classList.remove('rolling');
+    if(final===6){ spawnConfetti(); setTimeout(()=>{ win.classList.add('show'); win.setAttribute('aria-hidden','false'); },120); setTimeout(clearConfetti,2400);}
+    rolling=false;
+  }
+
+  // Cooldown
+  function updateCooldown(){
+    const next = parseInt(localStorage.getItem('nextRollTime')||'0');
+    const now = Date.now();
+    if(now<next){
+      btn.disabled=true;
+      const diff = next-now;
+      const h=Math.floor(diff/3600000);
+      const m=Math.floor((diff%3600000)/60000);
+      const s=Math.floor((diff%60000)/1000);
+      status.textContent=`You can try again in ${h}h ${m}m ${s}s`;
+    }else{
+      btn.disabled=false;
+      status.textContent='Ready to roll';
     }
+  }
 
-    // Show popup after loading
-    window.addEventListener("load", () => {
-      setTimeout(() => {
-        document.getElementById("loadingOverlay").classList.add("hidden");
-        setTimeout(showPromoPopup, 500);
-      }, 800);
-    });
+  function startCooldown(){
+    const next = Date.now()+3600000;
+    localStorage.setItem('nextRollTime',next);
+    updateCooldown();
+  }
 
-    // Show note when hovering near Buy button
-    const buyBtn = document.getElementById("buyBtn");
-    const promoNote = document.getElementById("promoNote");
+  setInterval(updateCooldown,1000);
 
-    buyBtn.addEventListener("mouseenter", () => {
-      promoNote.style.display = "block";
-    });
-    buyBtn.addEventListener("mouseleave", () => {
-      promoNote.style.display = "none";
-    });
-  </script>
+  // Popup logic
+  btn.addEventListener('click',()=>{
+    overlay.style.display='flex';
+    document.body.classList.add('blur');
+  });
+
+  yesBtn.addEventListener('click', ()=>{
+    overlay.style.display='none';
+    document.body.classList.remove('blur');
+    roll();
+    startCooldown();
+  });
+
+  noBtn.addEventListener('click', ()=>{
+    window.open('https://discord.gg/jsgrQUW6eA','_blank');
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.code==='Space'||e.code==='Enter'){ e.preventDefault(); btn.click(); }
+  });
+
+})();
+</script>
 </body>
 </html>
