@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>@jairomangero | Middleman Dashboard</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Inter", sans-serif;
+    background: radial-gradient(circle at top left, #1e293b, #0f172a);
+    color: #fff;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: none; /* hide system cursor by default */
+  }
+
+  /* Custom circular cursor */
+  .cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.05);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: width 0.15s, height 0.15s, border 0.15s, background 0.15s;
+    z-index: 9999;
+  }
+
+  /* Container */
+  .blurred { filter: blur(6px); transition: 0.3s; }
+  .container {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    width: 380px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    animation: fadeIn 0.8s ease-out;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  @keyframes fadeIn { from {opacity:0;transform:translateY(20px);} to {opacity:1;transform:translateY(0);} }
+
+  /* Tabs */
+  .tabs { display: flex; justify-content: space-around; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);}
+  .tab { flex:1; padding:12px; text-align:center; cursor:pointer; font-weight:600; transition:0.3s;}
+  .tab.active { background: rgba(255,255,255,0.1); }
+
+  /* Content */
+  .content { padding: 20px; text-align: center; min-height: 300px; }
+
+  /* Avatar */
+  .avatar { position: relative; width: 100px; height: 100px; margin: 0 auto 12px; }
+  .avatar img { width: 100%; height: 100%; border-radius: 50%; border:4px solid #1e293b; object-fit: cover; }
+  .status-ring { position:absolute; bottom:5px; right:5px; width:22px; height:22px; border-radius:50%; border:3px solid #0f172a; background:#43b581; box-shadow:0 0 10px #43b581; animation:pulse 2s infinite; }
+  @keyframes pulse {0%{box-shadow:0 0 6px var(--color);}50%{box-shadow:0 0 14px var(--color);}100%{box-shadow:0 0 6px var(--color);} }
+
+  .username { font-weight:700; font-size:1.3em; }
+  .activity { margin-top:8px; color:#9ca3af; font-size:0.9em; }
+  .middleman-status { margin-top:14px; font-weight:600; font-size:0.95em; animation: fadeText 1.5s infinite alternate; }
+  @keyframes fadeText {0%{opacity:1;transform:scale(1);}100%{opacity:0.7;transform:scale(1.02);} }
+
+  /* Button */
+  .games-btn { margin-top:16px; background:#43b581; color:white; font-weight:600; border:none; border-radius:8px; padding:10px 14px; cursor:pointer; transition:0.3s; }
+  .games-btn:hover { background:#3aa972; }
+
+  /* Vouch list */
+  #vouch-count { margin-bottom:10px; font-weight:600; color:#a5b4fc; text-align:left; }
+  #vouch-list {
+    max-height: 300px;
+    overflow-y: auto;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;     
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  #vouch-list::-webkit-scrollbar { display: none; }
+  .vouch { background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; margin-bottom:12px; padding:14px; text-align:left; animation: popIn 0.6s ease; transition: transform 0.25s ease; scroll-snap-align:start;}
+  .vouch:hover { transform: scale(1.02); }
+  @keyframes popIn { from{opacity:0;transform:scale(0.95);} to{opacity:1;transform:scale(1);} }
+  .vouch-user { font-weight:600; color:#a5b4fc; margin-bottom:4px; }
+  .vouch-text { font-size:0.9em; color:#e5e7eb; }
+
+  /* Popup overlay */
+  .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:10; backdrop-filter:blur(4px); }
+  .spinner { border:4px solid rgba(255,255,255,0.3); border-top:4px solid #43b581; border-radius:50%; width:40px; height:40px; animation: spin 0.9s linear infinite;}
+  @keyframes spin { to{transform:rotate(360deg);} }
+  .popup { background: rgba(20,25,40,0.95); border-radius:16px; padding:24px; text-align:center; width:280px; box-shadow:0 8px 25px rgba(0,0,0,0.4); animation: popupFade 0.3s ease; position:relative; z-index:20;}
+  @keyframes popupFade {from{opacity:0;transform:translateY(10px) scale(0.98);} to{opacity:1;transform:translateY(0) scale(1);} }
+  .popup h2 { margin-top:0; font-size:1.2em; }
+  .popup ul { list-style:none; padding:0; margin:16px 0 0 0; color:#e2e8f0; }
+  .popup li { margin-bottom:6px; animation: fadeInList 0.6s ease forwards;}
+  @keyframes fadeInList {from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
+  .close-btn { position:absolute; top:10px; right:14px; cursor:pointer; font-size:18px; color:#ccc;}
+  .close-btn:hover { color:white; }
+</style>
+</head>
+<body>
+  <div id="main-container" class="container">
+    <div class="tabs">
+      <div id="tab-status" class="tab active">Status</div>
+      <div id="tab-vouches" class="tab">Vouches</div>
+    </div>
+
+    <div id="content-status" class="content">
+      <div class="avatar">
+        <img id="avatar" src="" alt="Avatar" />
+        <div id="status-ring" class="status-ring"></div>
+      </div>
+      <div class="username">@jairomangero</div>
+      <div id="status-text" class="activity">Loading status...</div>
+      <div id="middleman" class="middleman-status"></div>
+      <button id="games-btn" class="games-btn">List of games I work on</button>
+    </div>
+
+    <div id="content-vouches" class="content" style="display:none;">
+      <div id="vouch-count">Total Count: 0</div>
+      <div id="vouch-list"></div>
+    </div>
+  </div>
+
+  <div id="overlay" class="overlay" style="display:none;"></div>
+  <div class="cursor" id="cursor"></div>
+
+<script>
+  // Smooth custom cursor
+  const cursor = document.getElementById('cursor');
+  let mouseX=0, mouseY=0, currentX=0, currentY=0;
+  document.addEventListener('mousemove', e=>{ mouseX=e.clientX; mouseY=e.clientY; });
+  function animateCursor(){
+    currentX += (mouseX - currentX)*0.15;
+    currentY += (mouseY - currentY)*0.15;
+    cursor.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%, -50%)`;
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Hide custom cursor on hover of interactive elements
+  const interactiveElements = document.querySelectorAll('button, a, .tab, .vouch');
+  interactiveElements.forEach(el=>{
+    el.addEventListener('mouseenter',()=>cursor.style.display='none');
+    el.addEventListener('mouseleave',()=>cursor.style.display='block');
+  });
+
+  // Variables
+  const userId = "1421583595364942047";
+  const statusRing = document.getElementById("status-ring");
+  const statusText = document.getElementById("status-text");
+  const avatar = document.getElementById("avatar");
+  const middleman = document.getElementById("middleman");
+  const vouchList = document.getElementById("vouch-list");
+  const vouchCount = document.getElementById("vouch-count");
+  const mainContainer = document.getElementById("main-container");
+  const overlay = document.getElementById("overlay");
+
+  const colors = { online:"#43b581", idle:"#faa61a", dnd:"#f04747", offline:"#747f8d" };
+  const vouches = [
+    { user:"novaz", vouch:"mm'd garama for 10k robux" },
+    { user:"Juan_Premlun", vouch:"Helped me trade my chillin chilli" },
+    { user:"Alois", vouch:"Very fast trade took 3 mins W MM" },
+    { user:"Anonymous", vouch:"Bought my la grande diamond 15m for 2k robux" },
+    { user:"Zxrox", vouch:"Best MM out" },
+    { user:"Target", vouch:"Trusted 10/10" },
+    { user:"SABISGOOD", vouch:"bought my esok 210M for 5K robux" },
+    { user:"Aston", vouch:"Helped me trade safely for a garama, much love bro" },
+    { user:"Ash", vouch:"Fast" },
+    { user:"Anonymous", vouch:"very trusted!" },
+    { user:"ProVS", vouch:"Tacorita Bicicleeta 90M for la grande 100M" },
+    { user:"Anonymous", vouch:"Safe & trusted! 😍" },
+    { user:"Daniel2010", vouch:"ty for no scamming" },
+    { user:"Sybau", vouch:"+ Legit" },
+    { user:"MeowlLover59", vouch:"Ts so peak bro even gave me a free los comb after trade" },
+    { user:"Juan_Premlun", vouch:"Traded my 55M la grande for a Esok Sekolah using him as middleman, legit." },
+  ];
+
+  function renderVouches(){
+    vouchCount.innerText = `Total Count: ${vouches.length}`;
+    vouchList.innerHTML="";
+    vouches.forEach(v=>{
+      const div=document.createElement("div");
+      div.className="vouch";
+      div.innerHTML=`<div class="vouch-user">@${v.user}</div><div class="vouch-text">${v.vouch}</div>`;
+      vouchList.appendChild(div);
+    });
+  }
+
+  async function updateStatus(){
+    try{
+      const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+      const { data } = await res.json();
+      avatar.src=`https://cdn.discordapp.com/avatars/${data.discord_user.id}/${data.discord_user.avatar}.png?size=256`;
+      const color = colors[data.discord_status] || colors.offline;
+      statusRing.style.setProperty("--color", color);
+      statusRing.style.background=color;
+      const activity=data.activities.find(a=>a.type===0);
+      if(data.listening_to_spotify) statusText.innerText=`🎵 Listening to ${data.spotify.song} by ${data.spotify.artist}`;
+      else if(activity) statusText.innerText=`🎮 Playing ${activity.name}`;
+      else statusText.innerText=data.discord_status==="online"?"🟢 Online":`⚫ ${data.discord_status.charAt(0).toUpperCase()+data.discord_status.slice(1)}`;
+      if(data.discord_status==="dnd"){ middleman.innerText="🚫 MiddleMan is not available right now."; middleman.style.color="#f04747"; }
+      else if(data.discord_status==="online"){ middleman.innerText="✅ I might be available! Go shoot me a DM."; middleman.style.color="#43b581"; }
+      else middleman.innerText="";
+    }catch{ statusText.innerText="Couldn't fetch status 😢"; }
+  }
+
+  // Tabs
+  document.getElementById("tab-status").onclick=()=>{
+    document.getElementById("tab-status").classList.add("active");
+    document.getElementById("tab-vouches").classList.remove("active");
+    document.getElementById("content-status").style.display="block";
+    document.getElementById("content-vouches").style.display="none";
+  };
+  document.getElementById("tab-vouches").onclick=()=>{
+    document.getElementById("tab-vouches").classList.add("active");
+    document.getElementById("tab-status").classList.remove("active");
+    document.getElementById("content-vouches").style.display="block";
+    document.getElementById("content-status").style.display="none";
+  };
+
+  // Games popup
+  const games=["Steal A Brainrot","Grow A Garden","All kind of Robux for item trades"];
+  document.getElementById("games-btn").onclick=()=>{
+    mainContainer.classList.add("blurred");
+    overlay.innerHTML=`<div class="spinner"></div>`;
+    overlay.style.display="flex";
+    setTimeout(()=>{
+      overlay.innerHTML=`<div class="popup"><span class="close-btn" id="closePopup">✖</span><h2>Supported Games</h2><ul>${games.map(g=>`<li>${g}</li>`).join("")}</ul></div>`;
+    },900);
+  };
+  overlay.addEventListener("click",e=>{
+    if(e.target===overlay || e.target.id==="closePopup"){ overlay.style.display="none"; mainContainer.classList.remove("blurred"); }
+  });
+
+  renderVouches();
+  updateStatus();
+  setInterval(updateStatus,5000);
+</script>
+</body>
+</html>
