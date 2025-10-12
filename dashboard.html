@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0d0d0d;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+      font-size: 2.5rem;
+      color: #00ff88;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #00ff88;
+    }
+
+    .container {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+      overflow: hidden;
+      width: 300px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.3);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card h2 {
+      margin: 15px 0 10px;
+      font-size: 1.5rem;
+      color: #00ff88;
+    }
+
+    .btn {
+      background-color: #00ff88;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #00cc6a;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <h1>Dashboard</h1>
+  <div class="container">
+    <div class="card">
+      <img src="https://tr.rbxcdn.com/180DAY-332a77e0fcba5e81ad7dc1f0657fe786/768/432/Image/Webp/noFilter" alt="Grow A Garden">
+      <h2>Grow A Garden</h2>
+      <button class="btn" onclick="copyText('<https://www.roblox.com/share?code=83c34e74a922324983bdf1e408bec546&type=Server>[s](https://www.roblox.com/share?code=64669e8683a964439051234fd610c028&type=Server)')">Copy</button>
+    </div>
+
+    <div class="card">
+      <img src="https://tr.rbxcdn.com/180DAY-fdf2afb71461a1ce56a5be596f4c4544/500/280/Image/Jpeg/noFilter" alt="Plants VS Brainrots">
+      <h2>Plants VS Brainrots</h2>
+      <button class="btn" onclick="copyText('<https://www.roblox.com/share?code=83c34e74a922324983bdf1e408bec546&type=Server>[s](https://www.roblox.com/share?code=c99c85e981388d45ad8c818f45a62512&type=Server)')">Copy</button>
+    </div>
+  </div>
+
+  <script>
+    function copyText(text) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Copied!',
+            text: 'The link has been copied to clipboard.',
+            background: '#1a1a1a',
+            color: '#00ff88',
+            confirmButtonColor: '#00ff88',
+            timer: 1500,
+            showConfirmButton: false
+          });
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops!',
+            text: 'Failed to copy. Try again.',
+            background: '#1a1a1a',
+            color: '#ff4d4d',
+            confirmButtonColor: '#ff4d4d',
+            timer: 1500,
+            showConfirmButton: false
+          });
+        });
+    }
+  </script>
+</body>
+</html>
