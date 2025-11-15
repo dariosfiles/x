@@ -3,127 +3,96 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Oreo Clicker</title>
+<title>Oreo Clicker BETA</title>
+    <meta property="og:title" content="Oreo Clicker BETA" />
+  <meta property="og:description" content="" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mangos.click" />
 <style>
-body{
-  margin:0;background:#0f1724;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:Inter,sans-serif;color:white;user-select:none;position:relative;overflow:hidden;
-}
-
-/* INTRO */
+body{margin:0;background:#0f1724;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:Inter,sans-serif;color:white;user-select:none;position:relative;overflow:hidden;}
 #intro{position:fixed;top:0;left:0;width:100%;height:100%;background:black;color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:20;}
 #intro h1{font-size:48px;margin-bottom:30px;}
 #loadBar{width:300px;height:20px;background:#333;border-radius:10px;overflow:hidden;}
-#loadFill{width:0;height:100%;background:white;transition:width 3s linear;}
-
-/* TOP ICONS */
+#loadFill{width:0;height:100%;background:white;}
 #settingsBtn,#shopBtn,#achBtn{position:absolute;top:20px;font-size:30px;cursor:pointer;opacity:.8;transition:.2s;}
 #settingsBtn{right:20px;}#shopBtn{right:70px;}#achBtn{right:120px;}
 #settingsBtn:hover,#shopBtn:hover,#achBtn:hover{opacity:1;}
-
 #counter{font-size:48px;font-weight:800;margin-bottom:20px;}
-
 .oreo-wrap{width:240px;height:240px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .18s cubic-bezier(.2,.9,.2,1);}
 .oreo{width:80%;height:80%;background-image:url('https://static.wixstatic.com/media/bcc93e_90cfaae0b5684d98b09911eaa61d939f~mv2.png/v1/fill/w_298,h_378,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/miperro.png');background-size:cover;background-position:center;border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,0.6);transition:transform .14s ease;}
-
 .pulse{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:0;height:0;border-radius:50%;pointer-events:none;opacity:0;}
-
-/* POPUPS */
 #overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:10;}
 .popup{background:#162032;padding:24px;width:350px;border-radius:16px;box-shadow:0 0 20px rgba(0,0,0,0.5);position:relative;animation:pop .25s ease;}
 @keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
 .closeBtn{position:absolute;right:14px;top:10px;cursor:pointer;font-size:22px;opacity:.7;transition:.2s;} .closeBtn:hover{opacity:1;}
 .title{font-size:24px;font-weight:700;margin-bottom:14px;}
-
-/* TOGGLE */
 .toggle{display:flex;align-items:center;justify-content:space-between;margin:10px 0;}
 .switch{position:relative;width:50px;height:26px;background:#555;border-radius:20px;cursor:pointer;transition:.2s;}
 .switch::after{content:"";position:absolute;width:22px;height:22px;background:white;border-radius:50%;top:2px;left:2px;transition:.2s;}
 .switch.active{background:#4ade80;} .switch.active::after{transform:translateX(24px);}
 .desc{font-size:12px;opacity:.8;margin-top:6px;}
-
-/* SHOP */
 .item{background:#1f2b40;padding:12px;border-radius:12px;margin:10px 0;}
 .item-title{font-size:18px;font-weight:600;}
 .price{color:#4ade80;font-weight:700;}
 button.buyBtn{margin-top:10px;width:100%;padding:10px;border:none;border-radius:10px;font-size:16px;cursor:pointer;background:#4ade80;color:#06270f;font-weight:700;transition:.2s;} button.buyBtn:disabled{background:#2c2c2c;color:#777;cursor:not-allowed;}
-
-/* ACHIEVEMENTS POPUP */
 .achBox{background:#1f2b40;padding:14px;border-radius:12px;margin:14px 0;}
 .achTitle{font-size:18px;font-weight:600;margin-bottom:6px;}
 .achDesc{font-size:13px;opacity:.8;margin-bottom:10px;}
 .achBar{width:100%;height:14px;background:#2c3b55;border-radius:8px;overflow:hidden;}
 .achFill{height:100%;width:0;background:#4ade80;transition:width .3s ease;}
-
-/* NOTIFICATION */
 #notifContainer{position:fixed;right:20px;bottom:20px;z-index:30;display:flex;flex-direction:column;gap:10px;}
 .notif{background:#1f2b40;padding:12px 16px;border-radius:10px;opacity:0;transform:translateX(40px);transition:.4s;}
 </style>
 </head>
 <body>
-
 <div id="intro">
-  <h1>Oreo Clicker BETA</h1>
-  <div id="loadBar"><div id="loadFill"></div></div>
+<h1>Oreo Clicker BETA</h1>
+<div id="loadBar"><div id="loadFill"></div></div>
 </div>
-
 <div id="notifContainer"></div>
-
 <div id="achBtn">🏆</div>
 <div id="shopBtn">🛒</div>
 <div id="settingsBtn">⚙️</div>
-
 <div id="counter">0 clics</div>
 <div class="oreo-wrap" id="clickTarget"><div class="oreo"></div></div>
 <div class="pulse" id="pulse"></div>
 <div id="overlay"></div>
-
 <script>
 let count=0,silentMode=false,autoClickerBought=false,autoClickerInterval=null;
-let achievements={
-  a1:{title:"Novato",desc:"Empezaste tu carrera en Oreo Clicker.",goal:5,done:false},
-  a2:{title:"Le estoy cogiendo el truco..",desc:"Estas entendiendo como funciona el juego",goal:90,done:false},
-  a3:{title:"Maquina de clickear",desc:"Te da flojera clickear.",goal:"auto",done:false}
-};
-
+let achievements={a1:{title:"Novato",desc:"Empezaste tu carrera en Oreo Clicker.",goal:5,done:false},a2:{title:"Le estoy cogiendo el truco..",desc:"Estas entendiendo como funciona el juego",goal:90,done:false},a3:{title:"Maquina de clickear",desc:"Te da flojera clickear.",goal:"auto",done:false}};
 function save(){localStorage.setItem('count',count);localStorage.setItem('silentMode',silentMode);localStorage.setItem('autoClickerBought',autoClickerBought);localStorage.setItem('achievements',JSON.stringify(achievements));}
-
 function load(){count=Number(localStorage.getItem('count'))||0;silentMode=localStorage.getItem('silentMode')==='true';autoClickerBought=localStorage.getItem('autoClickerBought')==='true';let ach=localStorage.getItem('achievements');if(ach)achievements=JSON.parse(ach);document.getElementById('counter').textContent=count+" clics";if(autoClickerBought) startAutoClicker();}
-
-/* INTRO */
-window.onload=()=>{setTimeout(()=>{document.getElementById('loadFill').style.width='100%';},100);setTimeout(()=>{document.getElementById('intro').style.display='none';load();},3000);} 
-
-function startAutoClicker(){if(autoClickerInterval)return;autoClickerInterval=setInterval(()=>{addClick({clientX:window.innerWidth/2,clientY:window.innerHeight/2});},1000);} 
-
-/* EFFECTS */
-function burst(x,y){for(let i=0;i<10;i++){let d=document.createElement('div');d.style.position='absolute';d.style.left=x+'px';d.style.top=y+'px';d.style.width='8px';d.style.height='8px';d.style.borderRadius='50%';d.style.background='radial-gradient(circle,#7dd3fc,#6366f1)';d.style.opacity='0.9';d.style.transition='all 600ms';document.body.appendChild(d);requestAnimationFrame(()=>{d.style.left=(x+(Math.random()*200-100))+'px';d.style.top=(y+(Math.random()*200-100))+'px';d.style.opacity='0';d.style.transform='scale(.3)';});setTimeout(()=>d.remove(),650);} }
+function startAutoClicker(){if(autoClickerInterval)return;autoClickerInterval=setInterval(()=>{addClick({clientX:window.innerWidth/2,clientY:window.innerHeight/2});},1000);}
+function burst(x,y){for(let i=0;i<10;i++){let d=document.createElement('div');d.style.position='absolute';d.style.left=x+'px';d.style.top=y+'px';d.style.width='8px';d.style.height='8px';d.style.borderRadius='50%';d.style.background='radial-gradient(circle,#7dd3fc,#6366f1)';d.style.opacity='0.9';d.style.transition='all 600ms';document.body.appendChild(d);requestAnimationFrame(()=>{d.style.left=(x+(Math.random()*200-100))+'px';d.style.top=(y+(Math.random()*200-100))+'px';d.style.opacity='0';d.style.transform='scale(.3)';});setTimeout(()=>d.remove(),650);}}
 function pulseAt(el){let r=el.getBoundingClientRect();let p=document.getElementById('pulse');p.style.width='0';p.style.height='0';p.style.opacity='0.4';p.style.transition='none';p.style.left=(r.left+r.width/2)+'px';p.style.top=(r.top+r.height/2)+'px';requestAnimationFrame(()=>{p.style.transition='all 600ms';p.style.width=r.width*2+'px';p.style.height=r.width*2+'px';p.style.opacity='0';});}
-
-/* CLICK */
 function addClick(ev){count++;document.getElementById('counter').textContent=count+" clics";save();checkAchievements();if(!silentMode){burst(ev.clientX,ev.clientY);pulseAt(document.getElementById('clickTarget'));}document.getElementById('clickTarget').animate([{transform:'scale(1)'},{transform:'scale(.88)'},{transform:'scale(1)'}],{duration:180});}
-
-clickTarget.onclick=e=>{if(!silentMode) addClick(e);} 
-document.addEventListener('keydown',e=>{if(silentMode&&e.key.toLowerCase()==='w') addClick({clientX:window.innerWidth/2,clientY:window.innerHeight/2});});
-
-/* POPUP SYSTEM */
+document.getElementById('clickTarget').onclick=e=>{if(!silentMode)addClick(e);}
+document.addEventListener('keydown',e=>{if(silentMode&&e.key.toLowerCase()==='w')addClick({clientX:window.innerWidth/2,clientY:window.innerHeight/2});});
 function closePopup(){overlay.style.display='none';overlay.innerHTML='';}
-overlay.onclick=e=>{if(e.target===overlay) closePopup();}
-settingsBtn.onclick=()=>openSettings();shopBtn.onclick=()=>openShop();achBtn.onclick=()=>openAchievements();
-
-/* SETTINGS */
+overlay.onclick=e=>{if(e.target===overlay)closePopup();}
+document.getElementById('settingsBtn').onclick=()=>openSettings();
+document.getElementById('shopBtn').onclick=()=>openShop();
+document.getElementById('achBtn').onclick=()=>openAchievements();
 function openSettings(){overlay.style.display='flex';overlay.innerHTML=`<div class="popup"><div class="closeBtn" id="cs">✖</div><div class="title">Ajustes</div><div class="toggle"><span>Silencioso</span><div id="swt" class="switch ${silentMode?'active':''}"></div></div><div class="desc">Hace que tengas que utilizar la tecla W en vez de click.</div></div>`;document.getElementById('cs').onclick=closePopup;document.getElementById('swt').onclick=()=>{silentMode=!silentMode;document.getElementById('swt').classList.toggle('active');save();};}
-
-/* SHOP */
-function openShop(){overlay.style.display='flex';overlay.innerHTML=`<div class="popup"><div class="closeBtn" id="cl">✖</div><div class="title">Tienda</div><div class="item"><div class="item-title">Auto-Clicker <span class="price">- 1$/S</span></div><div class="desc">Precio: <span class="price">100 CLICS</span></div><button class="buyBtn" id="buyA" ${autoClickerBought?'disabled':''}>Comprar</button></div></div>`;document.getElementById('cl').onclick=closePopup;document.getElementById('buyA').onclick=()=>{if(count>=100&&!autoClickerBought){count-=100;document.getElementById('counter').textContent=count+" clics";autoClickerBought=true;save();document.getElementById('buyA').disabled=true;startAutoClicker();checkAchievements();}};} 
-
-/* ACHIEVEMENTS */
-function openAchievements(){overlay.style.display='flex';let html="<div class='popup'><div class='closeBtn' id='cA'>✖</div><div class='title'>Logros</div>";
-for(let k in achievements){let a=achievements[k];let prog=0;
-        if(a.done){ prog=100; }
-        else if(a.goal!=='auto') prog=Math.min(100,Math.floor((count/a.goal)*100));
-        else prog=autoClickerBought?100:0;}</div><div class='achDesc'>${a.desc}</div><div class='achBar'><div class='achFill' style='width:${prog}%;'></div></div></div>`;} html+="</div>";overlay.innerHTML=html;document.getElementById('cA').onclick=closePopup;}
-
-function notify(text){let c=document.getElementById('notifContainer');let n=document.createElement('div');n.className='notif';n.textContent=text;c.appendChild(n);setTimeout(()=>{n.style.opacity=1;n.style.transform='translateX(0)';},20);setTimeout(()=>{n.style.opacity=0;n.style.transform='translateX(40px)';setTimeout(()=>n.remove(),400);},3000);} 
-
+function openShop(){overlay.style.display='flex';overlay.innerHTML=`<div class="popup"><div class="closeBtn" id="cl">✖</div><div class="title">Tienda</div><div class="item"><div class="item-title">Auto-Clicker <span class="price">- 1$/S</span></div><div class="desc">Precio: <span class="price">100 CLICS</span></div><button class="buyBtn" id="buyA" ${autoClickerBought?'disabled':''}>Comprar</button></div></div>`;document.getElementById('cl').onclick=closePopup;document.getElementById('buyA').onclick=()=>{if(count>=100&&!autoClickerBought){count-=100;document.getElementById('counter').textContent=count+" clics";autoClickerBought=true;save();document.getElementById('buyA').disabled=true;startAutoClicker();checkAchievements();}};}
+function openAchievements(){overlay.style.display='flex';let html="<div class='popup'><div class='closeBtn' id='cA'>✖</div><div class='title'>Logros</div>";for(let k in achievements){let a=achievements[k];let prog=0;if(a.done){prog=100;}else if(a.goal!=='auto') prog=Math.min(100,Math.floor((count/a.goal)*100)); else prog=autoClickerBought?100:0;html+=`<div class='achBox'><div class='achTitle'>${a.title}</div><div class='achDesc'>${a.desc}</div><div class='achBar'><div class='achFill' style='width:${prog}%;'></div></div></div>`;} html+="</div>";overlay.innerHTML=html;document.getElementById('cA').onclick=closePopup;}
+function notify(text){let c=document.getElementById('notifContainer');let n=document.createElement('div');n.className='notif';n.textContent=text;c.appendChild(n);setTimeout(()=>{n.style.opacity=1;n.style.transform='translateX(0)';},20);setTimeout(()=>{n.style.opacity=0;n.style.transform='translateX(40px)';setTimeout(()=>n.remove(),400);},3000);}
 function checkAchievements(){if(!achievements.a1.done&&count>=5){achievements.a1.done=true;notify("¡Logro conseguido: Novato!");}if(!achievements.a2.done&&count>=90){achievements.a2.done=true;notify("¡Logro: Le estoy cogiendo el truco..!");}if(!achievements.a3.done&&autoClickerBought){achievements.a3.done=true;notify("¡Logro: Maquina de clickear!");}save();}
+
+/* Smooth load animation and start game */
+document.addEventListener('DOMContentLoaded',()=>{
+  const fill=document.getElementById('loadFill');
+  let width=0;
+  const interval=setInterval(()=>{
+    width+=1;
+    fill.style.width=width+'%';
+    if(width>=100){
+      clearInterval(interval);
+      document.getElementById('intro').style.display='none';
+      load();
+    }
+  },30);
+});
 </script>
-</body></html>
+</body>
+</html>
