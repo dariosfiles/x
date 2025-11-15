@@ -117,7 +117,10 @@ function openShop(){overlay.style.display='flex';overlay.innerHTML=`<div class="
 
 /* ACHIEVEMENTS */
 function openAchievements(){overlay.style.display='flex';let html="<div class='popup'><div class='closeBtn' id='cA'>✖</div><div class='title'>Logros</div>";
-for(let k in achievements){let a=achievements[k];let prog=0;if(a.goal!=='auto') prog=Math.min(100,Math.floor((count/a.goal)*100)); else prog=autoClickerBought?100:0;html+=`<div class='achBox'><div class='achTitle'>${a.title}</div><div class='achDesc'>${a.desc}</div><div class='achBar'><div class='achFill' style='width:${prog}%;'></div></div></div>`;} html+="</div>";overlay.innerHTML=html;document.getElementById('cA').onclick=closePopup;}
+for(let k in achievements){let a=achievements[k];let prog=0;
+        if(a.done){ prog=100; }
+        else if(a.goal!=='auto') prog=Math.min(100,Math.floor((count/a.goal)*100));
+        else prog=autoClickerBought?100:0;}</div><div class='achDesc'>${a.desc}</div><div class='achBar'><div class='achFill' style='width:${prog}%;'></div></div></div>`;} html+="</div>";overlay.innerHTML=html;document.getElementById('cA').onclick=closePopup;}
 
 function notify(text){let c=document.getElementById('notifContainer');let n=document.createElement('div');n.className='notif';n.textContent=text;c.appendChild(n);setTimeout(()=>{n.style.opacity=1;n.style.transform='translateX(0)';},20);setTimeout(()=>{n.style.opacity=0;n.style.transform='translateX(40px)';setTimeout(()=>n.remove(),400);},3000);} 
 
