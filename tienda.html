@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda de Brainrots</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+      color: #222;
+    }
+    header {
+      background: #222;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      font-size: 2rem;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    button {
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      background: #0077ff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005fcc;
+    }
+    .popup-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .popup {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 350px;
+      width: 100%;
+      position: relative;
+    }
+    .popup img {
+      width: 70%;
+      margin: 10px auto;
+      display: block;
+      border-radius: 6px;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .section-title {
+      margin-top: 60px;
+      font-size: 1.7rem;
+      font-weight: bold;
+    }
+    select {
+      padding: 10px;
+      font-size: 1rem;
+      margin-top: 10px;
+      border-radius: 6px;
+    }
+    #precio-texto {
+      margin-top: 15px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      min-height: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header>Tienda de Brainrots</header>
+
+<div class="container">
+  <button id="verFotosBtn">Ver fotos de base</button>
+  <button id="metodosBtn">Métodos de pago</button>
+
+  <div class="section-title">Precios</div>
+
+  <select id="selector">
+    <option value="default">SELECCIONA ALGO</option>
+    <option value="Orcaledon 760m">Orcaledon 760m</option>
+    <option value="Garama 50m">Garama 50m</option>
+    <option value="Garama 62m">Garama 62m</option>
+    <option value="Garama 187m">Garama 187m</option>
+    <option value="Garama 400m">Garama 400m</option>
+    <option value="Los 67 157m">Los 67 157m</option>
+    <option value="Ketchuru 425m">Ketchuru 425m</option>
+    <option value="La Taco Combinasion 105M">La Taco Combinasion 105M</option>
+    <option value="Los Combinasionas 45M">Los Combinasionas 45M</option>
+    <option value="Los Mobilis 132M">Los Mobilis 132M</option>
+    <option value="Los Puggies 30M">Los Puggies 30M</option>
+    <option value="La Grande Radioactiva 85M">La Grande Radioactiva 85M</option>
+    <option value="Quesadilla Radioactiva 25M">Quesadilla Radioactiva 25M</option>
+  </select>
+
+  <div id="precio-texto">Selecciona algun brainrot para ver su precio</div>
+</div>
+
+<!-- POPUP FOTOS -->
+<div class="popup-bg" id="popupBg">
+  <div class="popup" id="popup">
+    <div class="close" id="closePopup">X</div>
+    <img src="https://files.catbox.moe/9e49e2.jpg" alt="foto1" />
+    <img src="https://files.catbox.moe/bcjpfz.jpg" alt="foto2" />
+    <img src="https://files.catbox.moe/r50om2.jpg" alt="foto3" />
+  </div>
+</div>
+
+<!-- POPUP MÉTODOS DE PAGO -->
+<div class="popup-bg" id="popupPagoBg">
+  <div class="popup" id="popupPago">
+    <div class="close" id="closePago">X</div>
+    <p>PayPal</p>
+    <p>Dinero (en persona, solo Arcos o Jerez)</p>
+    <p>Robux (No pls donate ni gamepass)</p>
+  </div>
+</div>
+
+<!-- POPUP FOTO AMPLIADA -->
+<div class="popup-bg" id="popupZoomBg">
+  <div class="popup" id="popupZoom" style="max-width:600px;">
+    <div class="close" id="closeZoom">X</div>
+    <img id="zoomImg" src="" style="width:100%; border-radius:10px;" />
+  </div>
+</div>
+
+<script>
+  const precios = {
+    "Orcaledon 760m": "90€ o 10.000 robux",
+    "Garama 50m": "25€ o 1700 robux",
+    "Garama 62m": "35€ o 2400 robux",
+    "Garama 187m": "45€ o 4000 robux",
+    "Garama 400m": "65€ o 6700 robux",
+    "Los 67 157m": "5€ (NO ROBUX EN ESTO)",
+    "Ketchuru 425m": "60€ o 7000 robux",
+    "La Taco Combinasion 105M": "8€ (NO ROBUX EN ESTO)",
+    "Los Combinasionas 45M": "3.5€ (NO ROBUX EN ESTO)",
+    "Los Mobilis 132M": "12€ (NO ROBUX EN ESTO)",
+    "Los Puggies 30M": "15€ (NO ROBUX EN ESTO)",
+    "La Grande Radioactiva 85M": "15€ o 800 robux",
+    "Quesadilla Radioactiva 25M": "5€ (NO ROBUX EN ESTO)"
+  };
+
+  const selector = document.getElementById('selector');
+  const precioTexto = document.getElementById('precio-texto');
+
+  selector.addEventListener('change', () => {
+    const val = selector.value;
+    if (val === 'default') {
+      precioTexto.textContent = 'Selecciona algun brainrot para ver su precio';
+    } else {
+      precioTexto.textContent = precios[val] || 'Precio no encontrado';
+    }
+  });
+
+  const verFotosBtn = document.getElementById('verFotosBtn');
+  const popupBg = document.getElementById('popupBg');
+  const popup = document.getElementById('popup');
+  const closePopup = document.getElementById('closePopup');
+
+  verFotosBtn.addEventListener('click', () => {
+    popupBg.style.display = 'flex';
+  });
+
+  closePopup.addEventListener('click', () => {
+    popupBg.style.display = 'none';
+  });
+
+  popupBg.addEventListener('click', (e) => {
+    if (e.target === popupBg) popupBg.style.display = 'none';
+  });
+  // MÉTODOS DE PAGO
+  const metodosBtn = document.getElementById('metodosBtn');
+  const popupPagoBg = document.getElementById('popupPagoBg');
+  const closePago = document.getElementById('closePago');
+
+  metodosBtn.addEventListener('click', () => {
+    popupPagoBg.style.display = 'flex';
+  });
+
+  closePago.addEventListener('click', () => {
+    popupPagoBg.style.display = 'none';
+  });
+
+  popupPagoBg.addEventListener('click', (e) => {
+    if (e.target === popupPagoBg) popupPagoBg.style.display = 'none';
+  });
+
+  // ZOOM FOTOS BASE
+  const zoomBg = document.getElementById('popupZoomBg');
+  const zoomImg = document.getElementById('zoomImg');
+  const closeZoom = document.getElementById('closeZoom');
+  const fotos = document.querySelectorAll('#popup img');
+
+  fotos.forEach(f => {
+    f.style.cursor = 'pointer';
+    f.addEventListener('click', () => {
+      zoomImg.src = f.src;
+      zoomBg.style.display = 'flex';
+    });
+  });
+
+  closeZoom.addEventListener('click', () => {
+    zoomBg.style.display = 'none';
+  });
+
+  zoomBg.addEventListener('click', (e) => {
+    if (e.target === zoomBg) zoomBg.style.display = 'none';
+  });
+
+</script>
+
+</body>
+</html>
